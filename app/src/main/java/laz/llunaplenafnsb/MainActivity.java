@@ -2,10 +2,8 @@ package laz.llunaplenafnsb;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import laz.llunaplenafnsb.api.ApiRestManager;
-import laz.llunaplenafnsb.api.FeedCallback;
+import laz.llunaplenafnsb.api.FeedFetcher;
 
 /**
  * Main activity.
@@ -21,20 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        ApiRestManager manager = new ApiRestManager(getApplicationContext());
-        manager.getMainFeed(new FeedCallback() {
-
-            @Override
-            public void onFeedReceived() {
-
-                Log.v(TAG, "Feed received");
-            }
-
-            @Override
-            public void onError() {
-
-                Log.v(TAG, "Error while getting feed.");
-            }
-        });
+        FeedFetcher manager = new FeedFetcher(getApplicationContext());
+        manager.execute();
     }
 }

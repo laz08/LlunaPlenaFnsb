@@ -1,8 +1,9 @@
 package laz.llunaplenafnsb.items;
 
 /**
- * Feed.
+ * FeedItem.
  */
-public class Feed {
+public class FeedItem {
+
 
 }
