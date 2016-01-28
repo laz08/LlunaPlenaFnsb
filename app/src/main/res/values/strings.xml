@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LlunaPlenaFnsb</string>
+
+    <string name="baseURL">http://llunaplenanofansub.blogspot.com.es/</string>
 </resources>
