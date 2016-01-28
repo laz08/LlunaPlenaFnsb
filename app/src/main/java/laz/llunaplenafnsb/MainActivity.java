@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FeedFetcher manager = new FeedFetcher(getApplicationContext());
-        manager.execute();
+        FeedFetcher fetcher = new FeedFetcher(getApplicationContext());
+        fetcher.execute();
     }
 }

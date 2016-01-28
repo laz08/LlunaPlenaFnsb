@@ -19,7 +19,7 @@ public class FeedParser {
 
             item.setTitle(NestedStringParser.parseT(json.getJSONObject(ApiField.TITLE)));
             item.setSubtitle(NestedStringParser.parseT(json.getJSONObject(ApiField.SUBTITLE)));
-            //TODO: Parse links.
+
             if (json.has(ApiField.ENTRY)) {
 
                 item.setEntries(EntryParser.parse(json.getJSONArray(ApiField.ENTRY)));
@@ -29,7 +29,6 @@ public class FeedParser {
 
             e.printStackTrace();
         }
-
 
         return item;
     }
