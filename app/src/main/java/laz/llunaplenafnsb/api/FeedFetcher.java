@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import laz.llunaplenafnsb.FeedParser;
+import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.items.Feed;
 

@@ -17,7 +17,7 @@ public class ApiField {
     public static final String REL = "rel";
     public static final String SUBTITLE = "subtitle";
     public static final String SUMMARY = "summary";
-    public static final String T = "$t";
+    public static final String _T = "$t";
     public static final String TITLE = "title";
     public static final String WIDTH = "width";
 }
