@@ -17,8 +17,8 @@ public class FeedParser {
 
         try {
 
-            parseTitle(json, item);
-            parseSubtitle(json, item);
+            item.setTitle(NestedStringParser.parseT(json.getJSONObject(ApiField.TITLE)));
+            item.setSubtitle(NestedStringParser.parseT(json.getJSONObject(ApiField.SUBTITLE)));
             //TODO: Parse links.
             if (json.has(ApiField.ENTRY)) {
 
@@ -35,15 +35,4 @@ public class FeedParser {
     }
 
 
-    private static void parseSubtitle(JSONObject json, Feed item) throws JSONException {
-
-        JSONObject jsonSubtitle = json.getJSONObject(ApiField.SUBTITLE);
-        item.setSubtitle(jsonSubtitle.getString(ApiField._T));
-    }
-
-    private static void parseTitle(JSONObject json, Feed item) throws JSONException {
-
-        JSONObject jsonTitle = json.getJSONObject(ApiField.TITLE);
-        item.setTitle(jsonTitle.getString(ApiField._T));
-    }
 }
