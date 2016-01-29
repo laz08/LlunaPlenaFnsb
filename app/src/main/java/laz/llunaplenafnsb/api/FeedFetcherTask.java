@@ -110,19 +110,21 @@ public class FeedFetcherTask extends AsyncTask<Void, Void, Feed> {
     protected Feed doInBackground(Void... voids) {
 
         String feedJSON = requestFeed();
-        try {
+        if (feedJSON != null) {
 
-            JSONObject json = new JSONObject(feedJSON);
-            Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
-            if (json.has(ApiConstant.FEED)) {
+            try {
 
-                return FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
+                JSONObject json = new JSONObject(feedJSON);
+                Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
+                if (json.has(ApiConstant.FEED)) {
+
+                    return FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
+                }
+            } catch (JSONException e) {
+
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-
-            e.printStackTrace();
         }
-
         return null;
     }
 }
