@@ -18,7 +18,7 @@ import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.Feed;
 
-public class FeedFetcher extends AsyncTask<Void, Void, Feed> {
+public class FeedFetcherTask extends AsyncTask<Void, Void, Feed> {
 
     public static final String TAG = "RESTManager";
 
@@ -32,7 +32,7 @@ public class FeedFetcher extends AsyncTask<Void, Void, Feed> {
      *
      * @param ctx Context.
      */
-    public FeedFetcher(Context ctx) {
+    public FeedFetcherTask(Context ctx) {
 
         mContext = ctx;
     }
@@ -113,10 +113,10 @@ public class FeedFetcher extends AsyncTask<Void, Void, Feed> {
         try {
 
             JSONObject json = new JSONObject(feedJSON);
-            Log.v(TAG, "Json has feed: " + json.has(ApiField.FEED));
-            if (json.has(ApiField.FEED)) {
+            Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
+            if (json.has(ApiConstant.FEED)) {
 
-                return FeedParser.parse(json.getJSONObject(ApiField.FEED));
+                return FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
             }
         } catch (JSONException e) {
 

@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.util.concurrent.ExecutionException;
 
-import laz.llunaplenafnsb.api.FeedFetcher;
+import laz.llunaplenafnsb.api.FeedFetcherTask;
 import laz.llunaplenafnsb.items.Feed;
 
 /**
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         Feed feed = null;
         try {
 
-            feed = new FeedFetcher(getApplicationContext()).execute().get();
+            feed = new FeedFetcherTask(getApplicationContext()).execute().get();
         } catch (InterruptedException e) {
 
             e.printStackTrace();

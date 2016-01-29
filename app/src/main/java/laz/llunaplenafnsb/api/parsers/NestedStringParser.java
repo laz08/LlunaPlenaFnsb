@@ -1,16 +1,19 @@
 package laz.llunaplenafnsb.api.parsers;
 
 import android.text.Html;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import laz.llunaplenafnsb.api.ApiField;
+import laz.llunaplenafnsb.api.ApiConstant;
 
 /**
  * Parses nested strings.
  */
 public class NestedStringParser {
+
+    public static final String TAG = "NestedStringParser";
 
     /**
      * Parses $t field.
@@ -20,11 +23,12 @@ public class NestedStringParser {
      */
     public static String parseT(JSONObject object) {
 
-        if (object.has(ApiField._T)) {
+        Log.v(TAG, "Parsing T.");
+        if (object.has(ApiConstant._T)) {
 
             try {
 
-                String text = object.getString(ApiField._T);
+                String text = object.getString(ApiConstant._T);
                 return Html.fromHtml(text).toString();
 
             } catch (JSONException e) {
@@ -43,6 +47,7 @@ public class NestedStringParser {
      */
     public static String parseTitle(JSONObject object) {
 
+        Log.v(TAG, "Parsing title.");
         return parseT(object);
     }
 
@@ -54,6 +59,7 @@ public class NestedStringParser {
      */
     public static String parseSubtitle(JSONObject object) {
 
+        Log.v(TAG, "Parsing subtitle.");
         return parseT(object);
     }
 
@@ -65,6 +71,7 @@ public class NestedStringParser {
      */
     public static String parseUpdated(JSONObject object) {
 
+        Log.v(TAG, "Parsing updated timestamp");
         return parseT(object);
     }
 
@@ -76,6 +83,7 @@ public class NestedStringParser {
      */
     public static String parseSummary(JSONObject object) {
 
+        Log.v(TAG, "Parsing summary");
         return parseT(object);
     }
 
@@ -87,6 +95,7 @@ public class NestedStringParser {
      */
     public static String parseName(JSONObject object) {
 
+        Log.v(TAG, "Parsing name");
         return parseT(object);
     }
 
@@ -98,6 +107,7 @@ public class NestedStringParser {
      */
     public static String parseEmail(JSONObject object) {
 
+        Log.v(TAG, "Parsing email");
         return parseT(object);
     }
 

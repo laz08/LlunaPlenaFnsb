@@ -1,6 +1,6 @@
 package laz.llunaplenafnsb.api;
 
-public class ApiField {
+public class ApiConstant {
 
     public static final String AUTHOR = "author";
     public static final String CATEGORY = "category";
