@@ -8,16 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import laz.llunaplenafnsb.api.ApiField;
-import laz.llunaplenafnsb.items.Entry;
+import laz.llunaplenafnsb.items.EntryItem;
 
 /**
- * Entry parser.
+ * EntryItem parser.
  */
 public class EntryParser {
 
-    public static List<Entry> parse(JSONArray jsonArray) {
+    /**
+     * Parses an array of entries.
+     *
+     * @param jsonArray JSON array of entries.
+     * @return List of parsed entries.
+     */
+    public static List<EntryItem> parse(JSONArray jsonArray) {
 
-        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<EntryItem> entries = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
 
             try {
@@ -32,17 +38,29 @@ public class EntryParser {
         return entries;
     }
 
-    public static Entry parse(JSONObject json) {
+    /**
+     * Parses an entry.
+     *
+     * @param json JSON Entry.
+     * @return Parsed entry.
+     */
+    public static EntryItem parse(JSONObject json) {
 
-        Entry entry = new Entry();
+        EntryItem entry = new EntryItem();
         try {
 
-            entry.setTitle(NestedStringParser.parseT(json.getJSONObject(ApiField.TITLE)));
+            entry.setTitle(NestedStringParser.parseTitle(json.getJSONObject(ApiField.TITLE)));
+//            entry.setLinks(); //TODO: SET LINKS
+            entry.setUpdated(NestedStringParser.parseUpdated(json.getJSONObject(ApiField.UPDATED)));
+            if (json.has(ApiField.SUMMARY)) {
+
+                entry.setSummary(NestedStringParser.parseSummary(json.getJSONObject(ApiField.SUMMARY)));
+            }
+            entry.setAuthor(AuthorParser.parseFirstAuthor(json.getJSONArray(ApiField.AUTHOR)));
         } catch (JSONException e) {
 
             e.printStackTrace();
         }
-
         return entry;
     }
 }

@@ -13,7 +13,7 @@ public class Feed {
     private String mSubtitle;
 
     private List<Link> mLinks;
-    private List<Entry> mEntries;
+    private List<EntryItem> mEntries;
 
     public String getUpdated() {
         return mUpdated;
@@ -39,11 +39,11 @@ public class Feed {
         mSubtitle = subtitle;
     }
 
-    public List<Entry> getEntries() {
+    public List<EntryItem> getEntries() {
         return mEntries;
     }
 
-    public void setEntries(List<Entry> entries) {
+    public void setEntries(List<EntryItem> entries) {
         mEntries = entries;
     }
 

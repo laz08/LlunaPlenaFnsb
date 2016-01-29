@@ -3,15 +3,17 @@ package laz.llunaplenafnsb.items;
 import java.util.List;
 
 /**
- * Entry.
+ * EntryItem.
  */
-public class Entry {
+public class EntryItem {
+
+    private String mUpdated;
 
     private String mTitle;
     private String mSummary;
 
     private List<Link> mLinks;
-    private Author mAuthor;
+    private AuthorItem mAuthor;
 
     public String getTitle() {
         return mTitle;
@@ -37,11 +39,20 @@ public class Entry {
         mLinks = links;
     }
 
-    public Author getAuthor() {
+    public AuthorItem getAuthor() {
         return mAuthor;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorItem author) {
         mAuthor = author;
     }
+
+    public String getUpdated() {
+        return mUpdated;
+    }
+
+    public void setUpdated(String updated) {
+        mUpdated = updated;
+    }
+
 }

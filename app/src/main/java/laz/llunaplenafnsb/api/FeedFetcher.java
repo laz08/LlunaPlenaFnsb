@@ -14,8 +14,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.R;
+import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.Feed;
 
 public class FeedFetcher extends AsyncTask<Void, Void, Feed> {
@@ -114,8 +114,10 @@ public class FeedFetcher extends AsyncTask<Void, Void, Feed> {
 
             JSONObject json = new JSONObject(feedJSON);
             Log.v(TAG, "Json has feed: " + json.has(ApiField.FEED));
-            return FeedParser.parse(json.getJSONObject(ApiField.FEED));
+            if (json.has(ApiField.FEED)) {
 
+                return FeedParser.parse(json.getJSONObject(ApiField.FEED));
+            }
         } catch (JSONException e) {
 
             e.printStackTrace();

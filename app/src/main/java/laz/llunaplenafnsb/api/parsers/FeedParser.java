@@ -17,9 +17,9 @@ public class FeedParser {
 
         try {
 
-            item.setTitle(NestedStringParser.parseT(json.getJSONObject(ApiField.TITLE)));
-            item.setSubtitle(NestedStringParser.parseT(json.getJSONObject(ApiField.SUBTITLE)));
-
+            item.setTitle(NestedStringParser.parseTitle(json.getJSONObject(ApiField.TITLE)));
+            item.setSubtitle(NestedStringParser.parseSubtitle(json.getJSONObject(ApiField.SUBTITLE)));
+            item.setUpdated(NestedStringParser.parseUpdated(json.getJSONObject(ApiField.UPDATED)));
             if (json.has(ApiField.ENTRY)) {
 
                 item.setEntries(EntryParser.parse(json.getJSONArray(ApiField.ENTRY)));

@@ -4,6 +4,7 @@ public class ApiField {
 
     public static final String AUTHOR = "author";
     public static final String CATEGORY = "category";
+    public static final String EMAIL = "email";
     public static final String ENTRY = "entry";
     public static final String FEED = "feed";
     public static final String HEIGHT = "height";
@@ -17,6 +18,7 @@ public class ApiField {
     public static final String REL = "rel";
     public static final String SUBTITLE = "subtitle";
     public static final String SUMMARY = "summary";
+    public static final String SRC = "src";
     public static final String _T = "$t";
     public static final String TITLE = "title";
     public static final String WIDTH = "width";
