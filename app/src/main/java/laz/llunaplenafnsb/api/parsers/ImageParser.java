@@ -23,7 +23,7 @@ public class ImageParser {
      */
     public static ImageItem parse(JSONObject jsonObject) {
 
-        Log.v(TAG, "Parsing image");
+//        Log.v(TAG, "Parsing image");
         ImageItem image = new ImageItem();
         try {
 

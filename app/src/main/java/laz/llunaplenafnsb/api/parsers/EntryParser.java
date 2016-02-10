@@ -54,7 +54,7 @@ public class EntryParser {
     public static EntryItem parse(JSONObject json) {
 
 
-        Log.v(TAG, "Parsing entry");
+//        Log.v(TAG, "Parsing entry");
         EntryItem entry = new EntryItem();
         try {
 

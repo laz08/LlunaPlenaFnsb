@@ -24,7 +24,7 @@ public class AuthorParser {
      */
     public static AuthorItem parseFirstAuthor(JSONArray jsonArray) {
 
-        Log.v(TAG, "Parsing first author.");
+//        Log.v(TAG, "Parsing first author.");
         if (jsonArray != null && jsonArray.length() > 0) {
 
             try {
@@ -46,7 +46,7 @@ public class AuthorParser {
      */
     public static AuthorItem parse(JSONObject json) {
 
-        Log.v(TAG, "Parsing author.");
+//        Log.v(TAG, "Parsing author.");
         AuthorItem author = new AuthorItem();
         try {
 

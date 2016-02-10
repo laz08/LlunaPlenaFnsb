@@ -18,6 +18,9 @@ import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.Feed;
 
+/**
+ * Feed fetcher task.
+ */
 public class FeedFetcherTask extends AsyncTask<Void, Void, Feed> {
 
     public static final String TAG = "RESTManager";
@@ -50,6 +53,7 @@ public class FeedFetcherTask extends AsyncTask<Void, Void, Feed> {
         try {
 
             String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
+            Log.v(TAG, "Request URL: " + requestURL);
             URL url = new URL(requestURL);
 
             connection = (HttpURLConnection) url.openConnection();

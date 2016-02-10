@@ -17,7 +17,7 @@ public class FeedParser {
 
     public static Feed parse(JSONObject json) {
 
-        Log.v(TAG, "Parsing first author.");
+//        Log.v(TAG, "Parsing first author.");
 
         Feed item = new Feed();
         try {

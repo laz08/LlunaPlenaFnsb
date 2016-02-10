@@ -23,7 +23,7 @@ public class NestedStringParser {
      */
     public static String parseT(JSONObject object) {
 
-        Log.v(TAG, "Parsing T.");
+//        Log.v(TAG, "Parsing T.");
         if (object.has(ApiConstant._T)) {
 
             try {
@@ -47,7 +47,7 @@ public class NestedStringParser {
      */
     public static String parseTitle(JSONObject object) {
 
-        Log.v(TAG, "Parsing title.");
+//        Log.v(TAG, "Parsing title.");
         return parseT(object);
     }
 
@@ -59,7 +59,7 @@ public class NestedStringParser {
      */
     public static String parseSubtitle(JSONObject object) {
 
-        Log.v(TAG, "Parsing subtitle.");
+//        Log.v(TAG, "Parsing subtitle.");
         return parseT(object);
     }
 
@@ -71,7 +71,7 @@ public class NestedStringParser {
      */
     public static String parseUpdated(JSONObject object) {
 
-        Log.v(TAG, "Parsing updated timestamp");
+//        Log.v(TAG, "Parsing updated timestamp");
         return parseT(object);
     }
 
@@ -83,7 +83,7 @@ public class NestedStringParser {
      */
     public static String parseSummary(JSONObject object) {
 
-        Log.v(TAG, "Parsing summary");
+//        Log.v(TAG, "Parsing summary");
         return parseT(object);
     }
 
@@ -95,7 +95,7 @@ public class NestedStringParser {
      */
     public static String parseName(JSONObject object) {
 
-        Log.v(TAG, "Parsing name");
+//        Log.v(TAG, "Parsing name");
         return parseT(object);
     }
 
@@ -107,7 +107,7 @@ public class NestedStringParser {
      */
     public static String parseEmail(JSONObject object) {
 
-        Log.v(TAG, "Parsing email");
+//        Log.v(TAG, "Parsing email");
         return parseT(object);
     }
 
