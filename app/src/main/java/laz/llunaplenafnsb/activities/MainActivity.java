@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.util.concurrent.ExecutionException;
 
@@ -22,9 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
-    @Bind(R.id.headerImage)
-    ImageView mHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

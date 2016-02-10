@@ -5,6 +5,9 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Image loader helper.
+ */
 public class ImageLoaderHelper {
 
     /**
