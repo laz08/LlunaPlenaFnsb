@@ -6,11 +6,12 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import laz.llunaplenafnsb.items.EntryItem;
+import laz.llunaplenafnsb.views.EntryItemView;
 
 /**
  * Home entries adapter.
  */
-public class HomeEntriesAdapter extends RecyclerView.Adapter {
+public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder> {
 
     List<EntryItem> mEntries;
 
@@ -25,14 +26,19 @@ public class HomeEntriesAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EntryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return null;
+        return new EntryItemViewHolder(new EntryItemView(parent.getContext()));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(EntryItemViewHolder holder, int position) {
 
+        if (mEntries != null && position < mEntries.size()) {
+
+            EntryItem entryItem = mEntries.get(position);
+            holder.decorate(entryItem);
+        }
     }
 
     @Override

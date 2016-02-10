@@ -3,6 +3,7 @@ package laz.llunaplenafnsb.views;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import laz.llunaplenafnsb.items.EntryItem;
  * EntryItem item view.
  */
 public class EntryItemView extends CardView {
+
+    public static final String TAG = "EntryItemView";
 
     @Bind(R.id.entry_title)
     TextView mTitle;
@@ -55,7 +58,7 @@ public class EntryItemView extends CardView {
      */
     private void initialize(Context context) {
 
-        View layout = inflate(context, R.layout.view_entry_item, null);
+        View layout = inflate(context, R.layout.view_entry_item, this);
         ButterKnife.bind(this, layout);
     }
 
@@ -66,6 +69,8 @@ public class EntryItemView extends CardView {
      */
     public void setEntry(EntryItem entry) {
 
+        Log.v(TAG, "Setting entry");
+        Log.v(TAG, "Title: " + entry.getTitle());
         mTitle.setText(entry.getTitle());
         mSummary.setText(entry.getSummary());
     }

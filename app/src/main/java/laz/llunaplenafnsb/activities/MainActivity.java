@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
+    private HomeEntriesAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,9 +44,20 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        HomeEntriesAdapter adapter = new HomeEntriesAdapter();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mRecyclerView.setAdapter(adapter);
+        configureRecyclerView();
+    }
+
+    /**
+     * Configures recycler view.
+     */
+    private void configureRecyclerView() {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new HomeEntriesAdapter();
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     /**
@@ -82,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "SubTitle: " + feed.getSubtitle());
 
         //TODO: Populate view.
-
-
+        mAdapter.setEntries(feed.getEntries());
     }
 }
