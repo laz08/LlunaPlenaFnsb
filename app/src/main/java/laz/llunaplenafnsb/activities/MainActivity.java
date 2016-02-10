@@ -2,13 +2,16 @@ package laz.llunaplenafnsb.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
+import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
 import laz.llunaplenafnsb.api.FeedFetcherTask;
 import laz.llunaplenafnsb.items.Feed;
 
@@ -32,12 +35,20 @@ public class MainActivity extends AppCompatActivity {
         fetchData();
     }
 
+    /**
+     * Initializes the activity.
+     */
     private void initialize() {
 
+        ButterKnife.bind(this);
+
+        HomeEntriesAdapter adapter = new HomeEntriesAdapter();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mRecyclerView.setAdapter(adapter);
     }
 
     /**
-     * Fetchs rss feed data.
+     * Fetches RSS feed data.
      */
     private void fetchData() {
 
@@ -69,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "Updated at: " + feed.getUpdated());
         Log.v(TAG, "Title: " + feed.getTitle());
         Log.v(TAG, "SubTitle: " + feed.getSubtitle());
+
         //TODO: Populate view.
 
 
