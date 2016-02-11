@@ -6,4 +6,8 @@
     <dimen name="fab_margins">8dp</dimen>
 
     <dimen name="min_height_toolbar">250dp</dimen>
+
+    <dimen name="card_margin">12dp</dimen>
+    <dimen name="card_inner_margin">12dp</dimen>
+    <dimen name="card_radius">5dp</dimen>
 </resources>

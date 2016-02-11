@@ -3,8 +3,8 @@ package laz.llunaplenafnsb.views;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +16,7 @@ import laz.llunaplenafnsb.items.EntryItem;
 /**
  * EntryItem item view.
  */
-public class EntryItemView extends CardView {
+public class EntryItemView extends FrameLayout {
 
     public static final String TAG = "EntryItemView";
 
@@ -69,8 +69,6 @@ public class EntryItemView extends CardView {
      */
     public void setEntry(EntryItem entry) {
 
-        Log.v(TAG, "Setting entry");
-        Log.v(TAG, "Title: " + entry.getTitle());
         mTitle.setText(entry.getTitle());
         mSummary.setText(entry.getSummary());
     }

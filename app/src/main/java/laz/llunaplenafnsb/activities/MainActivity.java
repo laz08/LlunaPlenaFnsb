@@ -69,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             feed = new FeedFetcherTask(getApplicationContext()).execute().get();
-        } catch (InterruptedException e) {
-
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
 
             e.printStackTrace();
         }
@@ -94,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "Title: " + feed.getTitle());
         Log.v(TAG, "SubTitle: " + feed.getSubtitle());
 
-        //TODO: Populate view.
         mAdapter.setEntries(feed.getEntries());
     }
 }
