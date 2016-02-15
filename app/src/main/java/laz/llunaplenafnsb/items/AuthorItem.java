@@ -7,7 +7,7 @@ public class AuthorItem {
 
     private String mName;
     private String mEmail;
-    private ImageItem mThumbnail;
+    private ThumbnailItem mThumbnail;
     private String mUri; //Optional
 
 
@@ -27,11 +27,11 @@ public class AuthorItem {
         mEmail = email;
     }
 
-    public ImageItem getThumbnail() {
+    public ThumbnailItem getThumbnail() {
         return mThumbnail;
     }
 
-    public void setThumbnail(ImageItem thumbnail) {
+    public void setThumbnail(ThumbnailItem thumbnail) {
         mThumbnail = thumbnail;
     }
 

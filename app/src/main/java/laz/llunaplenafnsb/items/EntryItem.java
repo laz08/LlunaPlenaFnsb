@@ -15,6 +15,8 @@ public class EntryItem {
     private List<Link> mLinks;
     private AuthorItem mAuthor;
 
+    private ThumbnailItem mThumbnail;
+
     public String getTitle() {
         return mTitle;
     }
@@ -55,4 +57,23 @@ public class EntryItem {
         mUpdated = updated;
     }
 
+    public void setThumbnail(ThumbnailItem thumbnail) {
+
+        mThumbnail = thumbnail;
+    }
+
+    public ThumbnailItem getThumbnail() {
+
+        return mThumbnail;
+    }
+
+    /**
+     * Determines if entry has image.
+     *
+     * @return True if entry has image. False otherwise.
+     */
+    public boolean hasImage() {
+
+        return mThumbnail != null && mThumbnail.getUrl() != null && mThumbnail.getUrl().length() > 0;
+    }
 }

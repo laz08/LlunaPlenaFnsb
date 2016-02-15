@@ -3,17 +3,20 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:background="@color/entry_card_background"
-             android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+             android:background="@color/entry_card_background">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_margin"
-        app:cardElevation="5dp"
+        android:layout_marginBottom="@dimen/card_half_margin"
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginRight="@dimen/card_margin"
+        android:layout_marginTop="@dimen/card_half_margin"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/card_radius">
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,22 +25,29 @@
 
             <TextView
                 android:id="@+id/entry_title"
+                style="@style/EntryTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/entry_image"
                 tools:text="Title"/>
 
             <TextView
                 android:id="@+id/entry_summary"
+                style="@style/EntrySummaryStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/entry_title"
+                android:layout_toLeftOf="@+id/entry_image"
                 tools:text="Summary bla bla bla bla bla bla bla bla bla bla bla bla "/>
 
             <ImageView
                 android:id="@+id/entry_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentRight="true"
+                android:paddingLeft="@dimen/card_half_margin"/>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

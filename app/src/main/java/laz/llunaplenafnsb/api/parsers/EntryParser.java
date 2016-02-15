@@ -61,11 +61,19 @@ public class EntryParser {
             entry.setTitle(NestedStringParser.parseTitle(json.getJSONObject(ApiConstant.TITLE)));
 //            entry.setLinks(); //TODO: SET LINKS
             entry.setUpdated(NestedStringParser.parseUpdated(json.getJSONObject(ApiConstant.UPDATED)));
+            entry.setAuthor(AuthorParser.parseFirstAuthor(json.getJSONArray(ApiConstant.AUTHOR)));
+
             if (json.has(ApiConstant.SUMMARY)) {
 
                 entry.setSummary(NestedStringParser.parseSummary(json.getJSONObject(ApiConstant.SUMMARY)));
             }
-            entry.setAuthor(AuthorParser.parseFirstAuthor(json.getJSONArray(ApiConstant.AUTHOR)));
+
+            if (json.has(ApiConstant.THUMBNAIL)) {
+
+                entry.setThumbnail(ThumbnailParser.parse(json.getJSONObject(ApiConstant.THUMBNAIL)));
+            }
+
+
         } catch (JSONException e) {
 
             e.printStackTrace();

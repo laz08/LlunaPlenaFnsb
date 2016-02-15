@@ -1,14 +1,20 @@
 package laz.llunaplenafnsb.items;
 
 /**
- * ImageItem.
+ * ThumbnailItem.
  */
-public class ImageItem {
+public class ThumbnailItem {
 
     private int mWidth;
     private int mHeight;
-    private String mSrc;
+    private String mUrl;
 
+    /**
+     * Constructor.
+     */
+    public ThumbnailItem() {
+
+    }
 
     public int getWidth() {
         return mWidth;
@@ -26,11 +32,11 @@ public class ImageItem {
         mHeight = height;
     }
 
-    public String getSrc() {
-        return mSrc;
+    public String getUrl() {
+        return mUrl;
     }
 
-    public void setSrc(String src) {
-        mSrc = src;
+    public void setUrl(String url) {
+        mUrl = url;
     }
 }

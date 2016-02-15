@@ -23,6 +23,8 @@ public class ApiConstant {
     public static final String SUMMARY = "summary";
     public static final String SRC = "src";
     public static final String _T = "$t";
+    public static final String THUMBNAIL = "media$thumbnail";
     public static final String TITLE = "title";
+    public static final String URL = "url";
     public static final String WIDTH = "width";
 }

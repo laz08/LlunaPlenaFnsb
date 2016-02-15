@@ -6,14 +6,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import laz.llunaplenafnsb.api.ApiConstant;
-import laz.llunaplenafnsb.items.ImageItem;
+import laz.llunaplenafnsb.items.ThumbnailItem;
 
 /**
  * Image parser.
  */
-public class ImageParser {
+public class ThumbnailParser {
 
-    public static final String TAG = "ImageParser";
+    public static final String TAG = "ThumbnailParser";
 
     /**
      * Parses an image.
@@ -21,20 +21,26 @@ public class ImageParser {
      * @param jsonObject Json Image.
      * @return Image parsed.
      */
-    public static ImageItem parse(JSONObject jsonObject) {
+    public static ThumbnailItem parse(JSONObject jsonObject) {
 
-//        Log.v(TAG, "Parsing image");
-        ImageItem image = new ImageItem();
+        Log.v(TAG, "Parsing image");
+        ThumbnailItem image = new ThumbnailItem();
         try {
 
             image.setWidth(Integer.valueOf(jsonObject.getString(ApiConstant.WIDTH)));
             image.setHeight(Integer.valueOf(jsonObject.getString(ApiConstant.HEIGHT)));
-            image.setSrc(jsonObject.getString(ApiConstant.SRC));
-            return image;
+            if (jsonObject.has(ApiConstant.SRC)) {
+
+                image.setUrl(jsonObject.getString(ApiConstant.SRC));
+            } else if (jsonObject.has(ApiConstant.URL)) {
+
+                image.setUrl(jsonObject.getString(ApiConstant.URL));
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return image;
     }
 }

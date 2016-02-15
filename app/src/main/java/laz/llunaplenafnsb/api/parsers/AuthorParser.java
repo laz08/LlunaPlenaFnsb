@@ -1,7 +1,5 @@
 package laz.llunaplenafnsb.api.parsers;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +12,7 @@ import laz.llunaplenafnsb.items.AuthorItem;
  */
 public class AuthorParser {
 
-    public static final String TAG = "AuthorParser";
+//    public static final String TAG = "AuthorParser";
 
     /**
      * Parses first author from an array of authors.
@@ -52,7 +50,7 @@ public class AuthorParser {
 
             author.setName(NestedStringParser.parseName(json.getJSONObject(ApiConstant.NAME)));
             author.setEmail(NestedStringParser.parseEmail(json.getJSONObject(ApiConstant.EMAIL)));
-            author.setThumbnail(ImageParser.parse(json.getJSONObject(ApiConstant.IMAGE)));
+            author.setThumbnail(ThumbnailParser.parse(json.getJSONObject(ApiConstant.IMAGE)));
         } catch (JSONException e) {
 
             e.printStackTrace();
