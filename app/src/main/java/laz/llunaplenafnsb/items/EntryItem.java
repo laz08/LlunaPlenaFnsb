@@ -1,11 +1,15 @@
 package laz.llunaplenafnsb.items;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * EntryItem.
  */
-public class EntryItem {
+public class EntryItem implements Parcelable {
 
     private String mUpdated;
 
@@ -76,4 +80,42 @@ public class EntryItem {
 
         return mThumbnail != null && mThumbnail.getUrl() != null && mThumbnail.getUrl().length() > 0;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mUpdated);
+        dest.writeString(mTitle);
+        dest.writeString(mSummary);
+        dest.writeList(mLinks);
+        dest.writeParcelable(mAuthor, 0);
+        dest.writeParcelable(mThumbnail, 0);
+    }
+
+    public EntryItem() {
+    }
+
+    protected EntryItem(Parcel in) {
+        mUpdated = in.readString();
+        mTitle = in.readString();
+        mSummary = in.readString();
+        mLinks = new ArrayList<Link>();
+        in.readList(mLinks, List.class.getClassLoader());
+        mAuthor = in.readParcelable(AuthorItem.class.getClassLoader());
+        mThumbnail = in.readParcelable(ThumbnailItem.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<EntryItem> CREATOR = new Parcelable.Creator<EntryItem>() {
+        public EntryItem createFromParcel(Parcel source) {
+            return new EntryItem(source);
+        }
+
+        public EntryItem[] newArray(int size) {
+            return new EntryItem[size];
+        }
+    };
 }

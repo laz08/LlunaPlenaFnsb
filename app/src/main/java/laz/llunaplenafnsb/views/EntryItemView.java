@@ -1,7 +1,9 @@
 package laz.llunaplenafnsb.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
+import laz.llunaplenafnsb.activities.EntryDetailActivity;
 import laz.llunaplenafnsb.helper.ImageLoaderHelper;
 import laz.llunaplenafnsb.items.EntryItem;
 
@@ -18,7 +21,7 @@ import laz.llunaplenafnsb.items.EntryItem;
  */
 public class EntryItemView extends FrameLayout {
 
-//    public static final String TAG = "EntryItemView";
+    public static final String TAG = "EntryItemView";
 
     @Bind(R.id.entry_title)
     TextView mTitle;
@@ -29,6 +32,7 @@ public class EntryItemView extends FrameLayout {
     @Bind(R.id.entry_image)
     ImageView mImageView;
 
+    private EntryItem mEntry;
 
     /**
      * Constructor.
@@ -69,6 +73,8 @@ public class EntryItemView extends FrameLayout {
      */
     public void setEntry(EntryItem entry) {
 
+        mEntry = entry;
+
         mTitle.setText(entry.getTitle());
         mSummary.setText(entry.getSummary());
         if (entry.hasImage()) {
@@ -80,5 +86,7 @@ public class EntryItemView extends FrameLayout {
 
             mImageView.setVisibility(GONE);
         }
+
     }
+
 }
