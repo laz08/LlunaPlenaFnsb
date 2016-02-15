@@ -1,5 +1,8 @@
 package laz.llunaplenafnsb.api;
 
+/**
+ * Api constants.
+ */
 public class ApiConstant {
 
     public static final String AUTHOR = "author";

@@ -11,7 +11,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
-import laz.llunaplenafnsb.api.FeedManagerCallbacks;
+import laz.llunaplenafnsb.api.loader.FeedManagerCallbacks;
 import laz.llunaplenafnsb.api.parsers.FeedLoaderCallback;
 import laz.llunaplenafnsb.items.Feed;
 
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         mAdapter.setEntries(feed.getEntries());
         mAdapter.notifyDataSetChanged();
     }
-
 
     private static final int LOADER_ID = 42;
 }

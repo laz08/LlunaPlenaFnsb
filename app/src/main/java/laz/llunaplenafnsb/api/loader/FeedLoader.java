@@ -1,4 +1,4 @@
-package laz.llunaplenafnsb.api;
+package laz.llunaplenafnsb.api.loader;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import laz.llunaplenafnsb.R;
+import laz.llunaplenafnsb.api.ApiConstant;
 import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.Feed;
 
@@ -24,7 +25,6 @@ import laz.llunaplenafnsb.items.Feed;
 
 //https://medium.com/google-developers/making-loading-data-on-android-lifecycle-aware-897e12760832#.x4dgmnp90
 public class FeedLoader extends AsyncTaskLoader<Feed> {
-/*AsyncTask<Void, Void, Feed> */
 
     public static final String TAG = "FeedLoader";
 
@@ -92,17 +92,6 @@ public class FeedLoader extends AsyncTaskLoader<Feed> {
                 e.printStackTrace();
             }
         }
-
-        return mData;
-    }
-
-
-    /**
-     * Returns data.
-     *
-     * @return Feed data.
-     */
-    public Feed getData() {
 
         return mData;
     }

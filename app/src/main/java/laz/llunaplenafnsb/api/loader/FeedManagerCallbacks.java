@@ -1,4 +1,4 @@
-package laz.llunaplenafnsb.api;
+package laz.llunaplenafnsb.api.loader;
 
 import android.content.Context;
 import android.os.Bundle;
