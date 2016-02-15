@@ -2,7 +2,7 @@ package laz.llunaplenafnsb.api;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.AsyncTask;
+import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -21,25 +21,91 @@ import laz.llunaplenafnsb.items.Feed;
 /**
  * Feed fetcher task.
  */
-public class FeedFetcherTask extends AsyncTask<Void, Void, Feed> {
 
-    public static final String TAG = "RESTManager";
+//https://medium.com/google-developers/making-loading-data-on-android-lifecycle-aware-897e12760832#.x4dgmnp90
+public class FeedLoader extends AsyncTaskLoader<Feed> {
+/*AsyncTask<Void, Void, Feed> */
 
-    private static final String GET_METHOD = "GET";
-    private static final int TIMEOUT = 500;
+    public static final String TAG = "FeedLoader";
+
+    public static FeedLoader mLoader;
 
     private Context mContext;
+    private Feed mData;
+
+
+    /**
+     * Returns instance.
+     *
+     * @param ctx Context.
+     * @return Feed loader.
+     */
+    public static FeedLoader getInstance(Context ctx) {
+
+        if (mLoader == null) {
+
+            mLoader = new FeedLoader(ctx);
+        }
+
+        return mLoader;
+    }
 
     /**
      * Constructor.
      *
      * @param ctx Context.
      */
-    public FeedFetcherTask(Context ctx) {
+    private FeedLoader(Context ctx) {
 
+        super(ctx);
         mContext = ctx;
     }
 
+    @Override
+    protected void onStartLoading() {
+
+        if (mData != null) {
+
+            deliverResult(mData);
+        } else {
+
+            forceLoad();
+        }
+    }
+
+    @Override
+    public Feed loadInBackground() {
+
+        String feedJSON = requestFeed();
+        if (feedJSON != null) {
+
+            try {
+
+                JSONObject json = new JSONObject(feedJSON);
+                Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
+                if (json.has(ApiConstant.FEED)) {
+
+                    mData = FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
+                }
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        return mData;
+    }
+
+
+    /**
+     * Returns data.
+     *
+     * @return Feed data.
+     */
+    public Feed getData() {
+
+        return mData;
+    }
 
     /**
      * Requests main feed.
@@ -111,24 +177,14 @@ public class FeedFetcherTask extends AsyncTask<Void, Void, Feed> {
 
 
     @Override
-    protected Feed doInBackground(Void... voids) {
+    public void deliverResult(Feed data) {
 
-        String feedJSON = requestFeed();
-        if (feedJSON != null) {
-
-            try {
-
-                JSONObject json = new JSONObject(feedJSON);
-                Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
-                if (json.has(ApiConstant.FEED)) {
-
-                    return FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
-                }
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
-        return null;
+        mData = data;
+        super.deliverResult(data);
     }
+
+
+    private static final String GET_METHOD = "GET";
+    private static final int TIMEOUT = 500;
+
 }

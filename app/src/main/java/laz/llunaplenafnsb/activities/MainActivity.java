@@ -1,24 +1,24 @@
 package laz.llunaplenafnsb.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.concurrent.ExecutionException;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
-import laz.llunaplenafnsb.api.FeedFetcherTask;
+import laz.llunaplenafnsb.api.FeedManagerCallbacks;
+import laz.llunaplenafnsb.api.parsers.FeedLoaderCallback;
 import laz.llunaplenafnsb.items.Feed;
 
 /**
  * Main activity.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FeedLoaderCallback {
 
     public static final String TAG = "MainActivity";
 
@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initialize();
-        fetchData();
     }
 
     /**
@@ -45,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         configureRecyclerView();
+        LoaderManager loaderManager = getSupportLoaderManager();
+        loaderManager.initLoader(LOADER_ID, null, new FeedManagerCallbacks(getApplicationContext(), this));
+    }
+
+
+    @Override
+    public void onFeedLoaded(Feed feed) {
+
+        loadData(feed);
     }
 
     /**
@@ -61,26 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Fetches RSS feed data.
-     */
-    private void fetchData() {
-
-        Feed feed = null;
-        try {
-
-            feed = new FeedFetcherTask(getApplicationContext()).execute().get();
-        } catch (InterruptedException | ExecutionException e) {
-
-            e.printStackTrace();
-        }
-
-        if (feed != null) {
-
-            loadData(feed);
-        }
-    }
-
-    /**
      * Loads feed data into activity.
      *
      * @param feed Feed.
@@ -92,5 +80,9 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "SubTitle: " + feed.getSubtitle());
 
         mAdapter.setEntries(feed.getEntries());
+        mAdapter.notifyDataSetChanged();
     }
+
+
+    private static final int LOADER_ID = 42;
 }
