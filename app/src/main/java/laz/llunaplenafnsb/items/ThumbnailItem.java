@@ -37,6 +37,7 @@ public class ThumbnailItem {
     }
 
     public void setUrl(String url) {
+
         mUrl = url;
     }
 }

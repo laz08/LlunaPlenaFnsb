@@ -2,7 +2,6 @@ package laz.llunaplenafnsb.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -74,7 +73,7 @@ public class EntryItemView extends FrameLayout {
         mSummary.setText(entry.getSummary());
         if (entry.hasImage()) {
 
-            Log.v(TAG, "Entry has image.");
+//            Log.v(TAG, "Entry has image.");
             ImageLoaderHelper.loadImageInto(getContext(), mImageView, entry.getThumbnail().getUrl());
         } else {
 

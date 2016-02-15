@@ -2,6 +2,7 @@ package laz.llunaplenafnsb.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,9 @@ import laz.llunaplenafnsb.items.Feed;
 public class MainActivity extends AppCompatActivity implements FeedLoaderCallback {
 
     public static final String TAG = "MainActivity";
+
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -44,8 +48,24 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         ButterKnife.bind(this);
 
         configureRecyclerView();
-        LoaderManager loaderManager = getSupportLoaderManager();
-        loaderManager.initLoader(LOADER_ID, null, new FeedManagerCallbacks(getApplicationContext(), this));
+
+        final FeedManagerCallbacks callback = new FeedManagerCallbacks(getApplicationContext(), this);
+
+        final LoaderManager loaderManager = getSupportLoaderManager();
+        loaderManager.initLoader(LOADER_ID, null, callback);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+
+                //TODO: Is there another way to do this?
+                loaderManager.destroyLoader(LOADER_ID);
+                loaderManager.initLoader(LOADER_ID, null, callback);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
 
