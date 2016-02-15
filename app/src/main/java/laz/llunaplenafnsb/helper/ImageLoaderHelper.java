@@ -5,6 +5,8 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import laz.llunaplenafnsb.R;
+
 /**
  * Image loader helper.
  */
@@ -20,6 +22,6 @@ public class ImageLoaderHelper {
     public static void loadImageInto(Context ctx, ImageView imageView, String url) {
 
         //TODO: PlaceholdeR?
-        Picasso.with(ctx).load(url).into(imageView);
+        Picasso.with(ctx).load(url).error(R.drawable.ic_error_black_24dp).into(imageView);
     }
 }
