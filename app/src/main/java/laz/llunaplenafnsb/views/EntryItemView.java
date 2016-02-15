@@ -2,7 +2,6 @@ package laz.llunaplenafnsb.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import laz.llunaplenafnsb.items.EntryItem;
  */
 public class EntryItemView extends FrameLayout {
 
-    public static final String TAG = "EntryItemView";
+//    public static final String TAG = "EntryItemView";
 
     @Bind(R.id.entry_title)
     TextView mTitle;
@@ -74,7 +73,7 @@ public class EntryItemView extends FrameLayout {
         mSummary.setText(entry.getSummary());
         if (entry.hasImage()) {
 
-            Log.v(TAG, "Entry has image. Title: " + entry.getTitle());
+//            Log.v(TAG, "Entry has image. Title: " + entry.getTitle());
             mImageView.setVisibility(VISIBLE);
             ImageLoaderHelper.loadImageInto(mImageView.getContext(), mImageView, entry.getThumbnail().getUrl());
         } else {
