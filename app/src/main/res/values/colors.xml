@@ -7,4 +7,8 @@
     <color name="entry_card_background">#cfd8dc</color>
     <color name="entryTitleTextColor">#212121</color>
     <color name="entrySummaryTextColor">#424242</color>
+
+    <color name="entryDetailTitleTextColor">#616161</color>
+
+    <color name="blackFading">#81000000</color>
 </resources>

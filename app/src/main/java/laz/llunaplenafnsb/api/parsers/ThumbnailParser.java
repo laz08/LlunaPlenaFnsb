@@ -1,7 +1,5 @@
 package laz.llunaplenafnsb.api.parsers;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +11,7 @@ import laz.llunaplenafnsb.items.ThumbnailItem;
  */
 public class ThumbnailParser {
 
-    public static final String TAG = "ThumbnailParser";
+//    public static final String TAG = "ThumbnailParser";
 
     /**
      * Parses an image.
@@ -23,7 +21,7 @@ public class ThumbnailParser {
      */
     public static ThumbnailItem parse(JSONObject jsonObject) {
 
-        Log.v(TAG, "Parsing image");
+//        Log.v(TAG, "Parsing image");
         ThumbnailItem image = new ThumbnailItem();
         try {
 
