@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">LlunaPlenaFnsb</string>
 
+    <string name="main_title">Lluna Plena</string>
+
     <string name="baseURL">http://llunaplenanofansub.blogspot.com.es/</string>
     <string name="rssJson">rss.xml?alt=json</string>
 </resources>

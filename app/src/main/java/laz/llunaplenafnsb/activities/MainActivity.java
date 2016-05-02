@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +35,12 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @Bind(R.id.toolbar_image)
+    ImageView mToolbarImage;
+
     private HomeEntriesAdapter mAdapter;
 
     @Override
@@ -49,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
     private void initialize() {
 
         ButterKnife.bind(this);
-
+        setUpToolbar();
         configureRecyclerView();
 
         final FeedManagerCallbacks callback = new FeedManagerCallbacks(getApplicationContext(), this);
@@ -69,6 +78,24 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+
+    /**
+     * Sets up toolbar.
+     */
+    private void setUpToolbar() {
+
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.main_title);
+        }
+
+        mToolbarImage.setImageResource(R.drawable.header_toolbar_image);
     }
 
 
@@ -119,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
      */
     private void openEntryDetailActivity(EntryItem item) {
 
-
         Intent detailIntent = new Intent(this, EntryDetailActivity.class);
         detailIntent.putExtra(EXTRA_ENTRY_ITEM, item);
         detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -127,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         startActivity(detailIntent);
     }
 
-    private static final String EXTRA_ENTRY_ITEM = "extraEntryItem";
+    public static final String EXTRA_ENTRY_ITEM = "extraEntryItem";
     private static final int LOADER_ID = 42;
 
 }

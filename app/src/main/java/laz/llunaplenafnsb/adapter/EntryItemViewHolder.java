@@ -34,7 +34,7 @@ public class EntryItemViewHolder extends RecyclerView.ViewHolder {
      */
     public void decorate(final EntryItem item, final OnEntryClickListener listener) {
 
-        Log.v(TAG, "Decorating");
+//        Log.v(TAG, "Decorating");
         mEntryItemView.setEntry(item);
         mEntryItemView.setListener(listener);
     }
