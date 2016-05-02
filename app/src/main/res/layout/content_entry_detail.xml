@@ -5,29 +5,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar_layout"
-        layout="@layout/custom_toolbar"/>
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                       xmlns:tools="http://schemas.android.com/tools"
                       android:layout_width="match_parent"
                       android:layout_height="match_parent"
-                      android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                      android:layout_marginRight="@dimen/activity_horizontal_margin"
                       android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/min_height_toolbar"
+                android:foreground="@drawable/header_gradient">
+
+                <ImageView
+                    android:id="@+id/toolbar_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/title_tv"
                 style="@style/EntryDetailTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/generalMarginTop"
                 tools:text="Títol"/>
 
@@ -35,6 +43,8 @@
                 android:id="@+id/description_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/generalMarginTop"
                 tools:text="@string/Lorem_Ipsum"/>
 

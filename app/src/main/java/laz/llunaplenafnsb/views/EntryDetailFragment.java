@@ -6,12 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
+import laz.llunaplenafnsb.helper.ImageLoaderHelper;
 import laz.llunaplenafnsb.items.EntryItem;
+import laz.llunaplenafnsb.items.ThumbnailItem;
 
 /**
  * Entry detail view
@@ -19,6 +22,9 @@ import laz.llunaplenafnsb.items.EntryItem;
 public class EntryDetailFragment extends Fragment {
 
     private EntryItem mEntry;
+
+    @Bind(R.id.toolbar_image)
+    ImageView mToolbarImage;
 
     @Bind(R.id.title_tv)
     TextView mTitle;
@@ -42,7 +48,6 @@ public class EntryDetailFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         mEntry = getArguments().getParcelable(EXTRA_ENTRY_ITEM);
-
     }
 
     @Nullable
@@ -55,6 +60,11 @@ public class EntryDetailFragment extends Fragment {
         mTitle.setText(mEntry.getTitle());
         mDescription.setText(mEntry.getSummary());
 
+        ThumbnailItem thumb = mEntry.getThumbnail();
+        if (thumb != null) {
+
+            ImageLoaderHelper.loadImageInto(getContext(), mToolbarImage, thumb.getUrl());
+        }
         return view;
     }
 
