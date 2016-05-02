@@ -16,6 +16,18 @@
             android:icon="@drawable/ic_search_black_18dp"
             android:title="@string/config"/>
 
+        <item
+            android:id="@+id/drawer_about"
+            android:checked="true"
+            android:icon="@drawable/ic_search_black_18dp"
+            android:title="@string/about"/>
+
+        <item
+            android:id="@+id/drawer_dev"
+            android:checked="true"
+            android:icon="@drawable/ic_search_black_18dp"
+            android:title="@string/developer"/>
+
 
     </group>
 </menu>
