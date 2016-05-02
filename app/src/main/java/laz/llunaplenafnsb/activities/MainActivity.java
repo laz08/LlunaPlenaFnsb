@@ -1,5 +1,6 @@
 package laz.llunaplenafnsb.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,14 +13,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
+import laz.llunaplenafnsb.adapter.OnEntryClickListener;
 import laz.llunaplenafnsb.api.loader.FeedManagerCallbacks;
 import laz.llunaplenafnsb.api.parsers.FeedLoaderCallback;
+import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
 
 /**
  * Main activity.
  */
-public class MainActivity extends AppCompatActivity implements FeedLoaderCallback {
+public class MainActivity extends AppCompatActivity implements FeedLoaderCallback, OnEntryClickListener {
 
     public static final String TAG = "MainActivity";
 
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new HomeEntriesAdapter();
+        mAdapter = new HomeEntriesAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -103,5 +106,28 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onEntryClick(EntryItem entry) {
+
+        Log.v(TAG, "OnEntryClick!");
+        openEntryDetailActivity(entry);
+    }
+
+
+    /**
+     * Opens entry detail activity.
+     */
+    private void openEntryDetailActivity(EntryItem item) {
+
+
+        Intent detailIntent = new Intent(this, EntryDetailActivity.class);
+        detailIntent.putExtra(EXTRA_ENTRY_ITEM, item);
+        detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(detailIntent);
+    }
+
+    private static final String EXTRA_ENTRY_ITEM = "extraEntryItem";
     private static final int LOADER_ID = 42;
+
 }

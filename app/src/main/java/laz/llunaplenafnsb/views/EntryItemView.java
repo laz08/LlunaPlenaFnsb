@@ -1,7 +1,7 @@
 package laz.llunaplenafnsb.views;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
-import laz.llunaplenafnsb.activities.EntryDetailActivity;
+import laz.llunaplenafnsb.adapter.OnEntryClickListener;
 import laz.llunaplenafnsb.helper.ImageLoaderHelper;
 import laz.llunaplenafnsb.items.EntryItem;
 
@@ -31,6 +31,9 @@ public class EntryItemView extends FrameLayout {
 
     @Bind(R.id.entry_image)
     ImageView mImageView;
+
+    @Bind(R.id.card_view)
+    CardView mCardView;
 
     private EntryItem mEntry;
 
@@ -89,4 +92,15 @@ public class EntryItemView extends FrameLayout {
 
     }
 
+    public void setListener(final OnEntryClickListener listener) {
+
+        mCardView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.v(TAG, "OnClick");
+                listener.onEntryClick(mEntry);
+            }
+        });
+    }
 }

@@ -3,6 +3,7 @@ package laz.llunaplenafnsb.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import laz.llunaplenafnsb.items.EntryItem;
@@ -13,7 +14,19 @@ import laz.llunaplenafnsb.views.EntryItemView;
  */
 public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder> {
 
-    List<EntryItem> mEntries;
+    private OnEntryClickListener mListener;
+    private List<EntryItem> mEntries;
+
+    /**
+     * Constructor.
+     *
+     * @param listener OnEntryClickListener.
+     */
+    public HomeEntriesAdapter(OnEntryClickListener listener) {
+
+        mListener = listener;
+        mEntries = new ArrayList<>();
+    }
 
     /**
      * Sets entries.
@@ -22,7 +35,7 @@ public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder
      */
     public void setEntries(List<EntryItem> entries) {
 
-        mEntries = entries;
+        mEntries.addAll(entries);
     }
 
     @Override
@@ -37,7 +50,7 @@ public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder
         if (mEntries != null && position < mEntries.size()) {
 
             EntryItem entryItem = mEntries.get(position);
-            holder.decorate(entryItem);
+            holder.decorate(entryItem, mListener);
         }
     }
 

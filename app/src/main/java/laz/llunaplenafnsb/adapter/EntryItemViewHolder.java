@@ -1,11 +1,8 @@
 package laz.llunaplenafnsb.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.util.Log;
 
-import laz.llunaplenafnsb.activities.EntryDetailActivity;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.views.EntryItemView;
 
@@ -14,7 +11,10 @@ import laz.llunaplenafnsb.views.EntryItemView;
  */
 public class EntryItemViewHolder extends RecyclerView.ViewHolder {
 
+    public static final String TAG = "EntryItemViewHolder";
+
     private EntryItemView mEntryItemView;
+
 
     /**
      * Constructor.
@@ -32,33 +32,11 @@ public class EntryItemViewHolder extends RecyclerView.ViewHolder {
      *
      * @param item Entry item.
      */
-    public void decorate(final EntryItem item) {
+    public void decorate(final EntryItem item, final OnEntryClickListener listener) {
 
+        Log.v(TAG, "Decorating");
         mEntryItemView.setEntry(item);
-        mEntryItemView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                openEntryDetailActivity(item);
-            }
-        });
+        mEntryItemView.setListener(listener);
     }
 
-    /**
-     * Opens entry detail activity.
-     */
-    private void openEntryDetailActivity(EntryItem item) {
-
-//        Log.v(TAG, "Opening entry detail activity.");
-        Context context = mEntryItemView.getContext();
-
-        Intent detailIntent = new Intent(context, EntryDetailActivity.class);
-        detailIntent.putExtra(EXTRA_ENTRY_ITEM, item);
-        detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        context.startActivity(detailIntent);
-    }
-
-    private static final String EXTRA_ENTRY_ITEM = "extraEntryItem";
 }
