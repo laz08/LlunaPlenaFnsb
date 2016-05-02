@@ -3,6 +3,8 @@ package laz.llunaplenafnsb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import butterknife.Bind;
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
 
     @Bind(R.id.toolbar_image)
     ImageView mToolbarImage;
+
+    @Bind(R.id.drawer)
+    DrawerLayout mDrawerLayout;
 
     private HomeEntriesAdapter mAdapter;
 
@@ -151,6 +157,32 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         startActivity(detailIntent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+
+            mDrawerLayout.closeDrawers();
+        } else {
+
+            super.onBackPressed();
+        }
     }
 
     public static final String EXTRA_ENTRY_ITEM = "extraEntryItem";

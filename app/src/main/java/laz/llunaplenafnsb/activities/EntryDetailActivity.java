@@ -88,7 +88,7 @@ public class EntryDetailActivity extends AppCompatActivity {
 
         mTitle.setText(item.getTitle());
         mDescription.setText(item.getSummary());
-        
+
         ThumbnailItem thumb = item.getThumbnail();
         if (thumb != null) {
 

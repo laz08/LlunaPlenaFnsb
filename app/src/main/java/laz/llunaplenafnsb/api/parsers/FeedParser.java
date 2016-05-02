@@ -1,7 +1,5 @@
 package laz.llunaplenafnsb.api.parsers;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +11,7 @@ import laz.llunaplenafnsb.items.Feed;
  */
 public class FeedParser {
 
-    public static final String TAG = "FeedParser";
+//    public static final String TAG = "FeedParser";
 
     public static Feed parse(JSONObject json) {
 
