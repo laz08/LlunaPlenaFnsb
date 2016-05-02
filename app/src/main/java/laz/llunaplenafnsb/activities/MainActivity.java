@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
     DrawerLayout mDrawerLayout;
 
     private HomeEntriesAdapter mAdapter;
+    private ArrayList<EntryItem> mEntries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +138,8 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         Log.v(TAG, "Title: " + feed.getTitle());
         Log.v(TAG, "SubTitle: " + feed.getSubtitle());
 
-        mAdapter.setEntries(feed.getEntries());
+        mEntries = new ArrayList<>(feed.getEntries());
+        mAdapter.setEntries(mEntries);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -152,11 +156,13 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
      */
     private void openEntryDetailActivity(EntryItem item) {
 
-        Intent detailIntent = new Intent(this, EntryDetailActivity.class);
-        detailIntent.putExtra(EXTRA_ENTRY_ITEM, item);
-        detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent detailPager = new Intent(this, EntryDetailActivity.class);
 
-        startActivity(detailIntent);
+        detailPager.putParcelableArrayListExtra(EntryDetailActivity.EXTRA_ENTRIES, mEntries);
+        detailPager.putExtra(EntryDetailActivity.EXTRA_POSITION, mEntries.indexOf(item));
+        detailPager.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(detailPager);
     }
 
     @Override
@@ -185,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         }
     }
 
-    public static final String EXTRA_ENTRY_ITEM = "extraEntryItem";
     private static final int LOADER_ID = 42;
 
 }
