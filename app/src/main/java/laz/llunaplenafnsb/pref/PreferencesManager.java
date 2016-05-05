@@ -34,6 +34,32 @@ public class PreferencesManager {
     }
 
     /**
+     * Sets if user wants to check for updates
+     *
+     * @param ctx   Context
+     * @param value Value.
+     */
+    public static void setCheckForUpdates(Context ctx, boolean value) {
+
+        SharedPreferences.Editor editor = ctx.getSharedPreferences(PreferencesValues.PREFS_NAME, 0).edit();
+        editor.putBoolean(PreferencesValues.CHECK_FOR_UPDATES, value);
+        editor.apply();
+
+    }
+
+    /**
+     * Gets if user wants to check for updates automatically.
+     *
+     * @param ctx Context.
+     * @return True if wants to check for updates automatically. False otherwise.
+     */
+    public static boolean getCheckForUpdates(Context ctx) {
+
+        SharedPreferences prefs = ctx.getSharedPreferences(PreferencesValues.PREFS_NAME, 0);
+        return prefs.getBoolean(PreferencesValues.CHECK_FOR_UPDATES, false);
+    }
+
+    /**
      * Returns when the feed was last updated in string format.
      *
      * @param ctx Context.

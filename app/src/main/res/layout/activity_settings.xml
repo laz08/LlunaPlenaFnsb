@@ -5,11 +5,11 @@
               android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/generalMarginTop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/config_item_height"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin">
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/generalMarginTop">
 
         <TextView
             android:layout_width="match_parent"
@@ -18,12 +18,58 @@
             android:text="@string/check_updates"/>
 
         <CheckBox
+            android:id="@+id/check_upd_checkb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:gravity="center_vertical"/>
+            android:layout_centerVertical="true"
+            android:gravity="center"/>
 
     </RelativeLayout>
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/large_indent"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/freq_1_h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1 hora"/>
+
+        <RadioButton
+            android:id="@+id/freq_3_h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generalMarginTop"
+            android:text="3 hores"/>
+
+        <RadioButton
+            android:id="@+id/freq_6_h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generalMarginTop"
+            android:text="6 hores"/>
+
+
+        <RadioButton
+            android:id="@+id/freq_12_h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generalMarginTop"
+            android:text="12 hores"/>
+
+
+        <RadioButton
+            android:id="@+id/freq_24_h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/generalMarginTop"
+            android:text="1 cop al dia"/>
+
+    </RadioGroup>
 
 </LinearLayout>

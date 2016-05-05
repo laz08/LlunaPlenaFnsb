@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.util.Calendar;
 
+import laz.llunaplenafnsb.pref.PreferencesManager;
+
 /**
  * Notification event receiver.
  */
@@ -24,11 +26,13 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
      */
     public static void setUpAlarm(Context ctx) {
 
+        Log.v(TAG, "Setting up alarm");
+
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(ctx);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
                 Calendar.getInstance().getTimeInMillis(),
-                AlarmManager.INTERVAL_HOUR,
+                AlarmManager.INTERVAL_HOUR * PreferencesManager.getFrequencyCheckUpdates(ctx),
                 alarmIntent);
     }
 
