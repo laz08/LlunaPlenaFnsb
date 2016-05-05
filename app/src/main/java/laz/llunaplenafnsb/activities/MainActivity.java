@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -27,6 +28,7 @@ import laz.llunaplenafnsb.api.loader.FeedManagerCallbacks;
 import laz.llunaplenafnsb.api.parsers.FeedLoaderCallback;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
+import laz.llunaplenafnsb.notification.NotificationEventReceiver;
 import laz.llunaplenafnsb.views.CustomSwipeRefreshLayout;
 
 /**
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         setContentView(R.layout.activity_main);
 
         initialize();
+        startNotificationAlarm();
     }
 
     /**
@@ -78,19 +81,14 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
 
-        final FeedManagerCallbacks callback = new FeedManagerCallbacks(getApplicationContext(), this);
-        final LoaderManager loaderManager = getSupportLoaderManager();
-        loaderManager.initLoader(LOADER_ID, null, callback);
-
+        registerLoader();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
 
-                //TODO: Is there another way to do this?
-                loaderManager.destroyLoader(LOADER_ID);
-                loaderManager.initLoader(LOADER_ID, null, callback);
+                registerLoader();
             }
         });
 
@@ -105,11 +103,29 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
     }
 
     /**
+     * Registers feed loader.
+     */
+    private void registerLoader() {
+
+        FeedManagerCallbacks callback = new FeedManagerCallbacks(getApplicationContext(), this);
+
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<Object> loader = loaderManager.getLoader(LOADER_ID);
+        if (loader == null) {
+
+            loaderManager.destroyLoader(LOADER_ID);
+        }
+        loaderManager.initLoader(LOADER_ID, null, callback);
+    }
+
+
+    /**
      * On item drawer selected.
      *
      * @param item Menu item selected.
      * @return Returns true if it has managed the click on the item. False otherwise.
      */
+
     private boolean onItemDrawerSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -131,6 +147,15 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
                 mDrawerLayout.closeDrawers();
         }
         return false;
+    }
+
+    /**
+     * Starts notification alarm.
+     */
+    private void startNotificationAlarm() {
+
+        Log.v(TAG, "Starting notification alarm.");
+        NotificationEventReceiver.setUpAlarm(getApplicationContext());
     }
 
 
