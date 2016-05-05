@@ -7,7 +7,7 @@
         <item
             android:id="@+id/drawer_home"
             android:checked="true"
-            android:icon="@drawable/ic_error_black_24dp"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/home"/>
 
         <item
@@ -17,7 +17,7 @@
 
         <item
             android:id="@+id/drawer_config"
-            android:icon="@drawable/ic_search_black_18dp"
+            android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/config"/>
 
     </group>
@@ -28,12 +28,12 @@
 
         <item
             android:id="@+id/drawer_about"
-            android:icon="@drawable/ic_search_black_18dp"
+            android:icon="@drawable/ic_info_outline_black_24dp"
             android:title="@string/about"/>
 
         <item
             android:id="@+id/drawer_dev"
-            android:icon="@drawable/ic_search_black_18dp"
+            android:icon="@drawable/ic_code_black_24dp"
             android:title="@string/developer"/>
     </group>
 
