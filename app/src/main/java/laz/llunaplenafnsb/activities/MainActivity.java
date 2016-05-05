@@ -1,6 +1,7 @@
 package laz.llunaplenafnsb.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
@@ -28,7 +29,6 @@ import laz.llunaplenafnsb.api.loader.FeedManagerCallbacks;
 import laz.llunaplenafnsb.api.parsers.FeedLoaderCallback;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
-import laz.llunaplenafnsb.notification.NotificationEventReceiver;
 import laz.llunaplenafnsb.views.CustomSwipeRefreshLayout;
 
 /**
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         setContentView(R.layout.activity_main);
 
         initialize();
-        startNotificationAlarm();
     }
 
     /**
@@ -134,14 +133,24 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
             case R.id.drawer_home:
                 return true;
 
+            case R.id.drawer_forum:
+
+                openForum();
+                mDrawerLayout.closeDrawers();
+                return true;
+
             case R.id.drawer_config:
-                //TODO Start config screen
+
+                startSettingsActivity();
+                mDrawerLayout.closeDrawers();
+                return true;
 
             case R.id.drawer_about:
                 //TODO: Start about screen
 
             case R.id.drawer_dev:
                 //TODO: Start about developer screen
+
 
             default:
                 mDrawerLayout.closeDrawers();
@@ -150,12 +159,24 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
     }
 
     /**
-     * Starts notification alarm.
+     * Opens forum.
      */
-    private void startNotificationAlarm() {
+    private void openForum() {
 
-        Log.v(TAG, "Starting notification alarm.");
-        NotificationEventReceiver.setUpAlarm(getApplicationContext());
+        String forumUrl = getResources().getString(R.string.forum_url);
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse(forumUrl));
+        startActivity(browserIntent);
+    }
+
+    /**
+     * Starts settings activity.
+     */
+    private void startSettingsActivity() {
+
+        Intent settingsAct = new Intent(this, SettingsActivity.class);
+        startActivity(settingsAct);
     }
 
 
@@ -266,6 +287,14 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
 
             super.onBackPressed();
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        mNavigationView.setCheckedItem(R.id.drawer_home);
     }
 
     private static final int LOADER_ID = 42;

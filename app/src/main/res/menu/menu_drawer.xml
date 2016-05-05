@@ -16,15 +16,20 @@
             android:title="@string/search"/>
 
         <item
-            android:id="@+id/drawer_config"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/config"/>
-
+            android:id="@+id/drawer_forum"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="@string/forum"/>
     </group>
 
     <group
         android:id="@+id/nav_footer"
         android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/drawer_config"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/config"/>
 
         <item
             android:id="@+id/drawer_about"

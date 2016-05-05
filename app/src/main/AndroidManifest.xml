@@ -21,6 +21,9 @@
         </activity>
 
         <activity android:name=".activities.EntryDetailActivity"/>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:theme="@style/AppThemeWithToolbar"/>
 
 
         <service

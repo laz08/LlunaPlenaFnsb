@@ -10,8 +10,12 @@
     <string name="config">Configuració</string>
     <string name="about">Sobre el fansub</string>
     <string name="developer">Desenvolupador(a)</string>
+    <string name="forum">Fòrum</string>
 
     <string name="search">Buscar</string>
+    <string name="check_updates">Comprovar actualitzacions</string>
+
+    <string name="forum_url">http://llunaplenanofansub.forosactivos.net</string>
 
 
     <string name="Lorem_Ipsum">

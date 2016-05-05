@@ -57,4 +57,5 @@ public class PreferencesManager {
         editor.putString(PreferencesValues.LAST_UPDATED, lastUpdated);
         editor.apply();
     }
+
 }

@@ -14,8 +14,6 @@ import java.util.Calendar;
  */
 public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
-//    http://stackoverflow.com/questions/20501225/using-service-to-run-background-and-create-notification
-
     public static final String TAG = "NotifEventReceiver";
 
     private static final String START_NOTIFICATION_SERVICE = "startNotificationService";
