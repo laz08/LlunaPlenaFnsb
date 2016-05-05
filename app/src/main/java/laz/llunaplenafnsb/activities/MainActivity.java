@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         setUpToolbar();
         configureRecyclerView();
 
-
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
 
