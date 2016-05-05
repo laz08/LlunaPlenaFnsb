@@ -19,6 +19,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
     public static final String TAG = "NotifEventReceiver";
 
     private static final String START_NOTIFICATION_SERVICE = "startNotificationService";
+    public static final String ANDROID_INTENT_ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
 
     /**
      * Sets alarm up.
@@ -27,9 +28,9 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(ctx);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                getRemainingTimeUntilAlarm(),
-                AlarmManager.INTERVAL_DAY,
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                Calendar.getInstance().getTimeInMillis(),
+                AlarmManager.INTERVAL_HOUR,
                 alarmIntent);
     }
 
@@ -46,47 +47,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         return PendingIntent.getBroadcast(ctx, NotificationCodes.REQUEST_CODE, i, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    /**
-     * Returns time resting until specified Alarm Time.
-     *
-     * @return Time in millis until alarm time.
-     */
-    public static long getRemainingTimeUntilAlarm() {
-
-        Calendar currentCalendar = Calendar.getInstance();
-        Calendar alarmCalendar = Calendar.getInstance();
-
-        alarmCalendar.set(Calendar.AM_PM, Calendar.AM);
-
-        alarmCalendar.set(Calendar.HOUR, ALARM_HOUR);
-        if (ALARM_HOUR >= 12) {
-
-            alarmCalendar.set(Calendar.AM_PM, Calendar.PM);
-            alarmCalendar.set(Calendar.HOUR, ALARM_HOUR - 12);
-        }
-        alarmCalendar.set(Calendar.MINUTE, ALARM_MIN);
-        alarmCalendar.set(Calendar.SECOND, ALARM_SEC);
-        alarmCalendar.set(Calendar.MILLISECOND, 0);
-
-        long currentTime = currentCalendar.getTimeInMillis();
-        long alarmTime = alarmCalendar.getTimeInMillis();
-
-        //Next day.
-        if (currentTime > alarmTime) {
-
-            Log.v(TAG, "Will be triggered next day.");
-            alarmCalendar.add(Calendar.DAY_OF_MONTH, 1);
-            alarmTime = alarmCalendar.getTimeInMillis();
-
-        } else {
-
-            Log.v(TAG, "Will be triggered today.");
-        }
-
-        Log.v(TAG, "Remaining millis: " + alarmTime);
-        return alarmTime;
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -96,11 +56,11 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
             Log.v(TAG, "onReceive triggered from alarm.");
             startWakefulService(context, NotificationIntentService.from(context));
-        }
-    }
+        } else if (intent.getAction().equals(ANDROID_INTENT_ACTION_BOOT_COMPLETED)) {
 
-    private static final int ALARM_HOUR = 13;
-    private static final int ALARM_MIN = 0;
-    private static final int ALARM_SEC = 0;
+            setUpAlarm(context);
+        }
+
+    }
 
 }
