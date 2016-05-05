@@ -5,6 +5,7 @@
 
     <dimen name="fab_margins">8dp</dimen>
 
+    <dimen name="entry_image_width">75dp</dimen>
     <dimen name="min_height_toolbar">192dp</dimen>
 
     <dimen name="card_margin">12dp</dimen>

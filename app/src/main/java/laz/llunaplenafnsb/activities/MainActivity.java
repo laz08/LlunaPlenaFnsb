@@ -2,6 +2,7 @@ package laz.llunaplenafnsb.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +27,7 @@ import laz.llunaplenafnsb.api.loader.FeedManagerCallbacks;
 import laz.llunaplenafnsb.api.parsers.FeedLoaderCallback;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
+import laz.llunaplenafnsb.views.CustomSwipeRefreshLayout;
 
 /**
  * Main activity.
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
     public static final String TAG = "MainActivity";
 
     @Bind(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    CustomSwipeRefreshLayout mSwipeRefreshLayout;
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
 
     @Bind(R.id.drawer)
     DrawerLayout mDrawerLayout;
+
+    @Bind(R.id.navigation_view)
+    NavigationView mNavigationView;
 
     private HomeEntriesAdapter mAdapter;
     private ArrayList<EntryItem> mEntries;
@@ -70,12 +75,15 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         setUpToolbar();
         configureRecyclerView();
 
-        final FeedManagerCallbacks callback = new FeedManagerCallbacks(getApplicationContext(), this);
 
+        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+
+        final FeedManagerCallbacks callback = new FeedManagerCallbacks(getApplicationContext(), this);
         final LoaderManager loaderManager = getSupportLoaderManager();
         loaderManager.initLoader(LOADER_ID, null, callback);
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -84,9 +92,46 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
                 //TODO: Is there another way to do this?
                 loaderManager.destroyLoader(LOADER_ID);
                 loaderManager.initLoader(LOADER_ID, null, callback);
-                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+
+                return onItemDrawerSelected(item);
+            }
+        });
+    }
+
+    /**
+     * On item drawer selected.
+     *
+     * @param item Menu item selected.
+     * @return Returns true if it has managed the click on the item. False otherwise.
+     */
+    private boolean onItemDrawerSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        switch (id) {
+
+            case R.id.drawer_home:
+                return true;
+
+            case R.id.drawer_config:
+                //TODO Start config screen
+
+            case R.id.drawer_about:
+                //TODO: Start about screen
+
+            case R.id.drawer_dev:
+                //TODO: Start about developer screen
+
+            default:
+                mDrawerLayout.closeDrawers();
+        }
+        return false;
     }
 
 
@@ -134,13 +179,21 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
      */
     private void loadData(Feed feed) {
 
-        Log.v(TAG, "Updated at: " + feed.getUpdated());
-        Log.v(TAG, "Title: " + feed.getTitle());
-        Log.v(TAG, "SubTitle: " + feed.getSubtitle());
+        mSwipeRefreshLayout.setRefreshing(false);
 
-        mEntries = new ArrayList<>(feed.getEntries());
-        mAdapter.setEntries(mEntries);
-        mAdapter.notifyDataSetChanged();
+        if (feed != null) {
+
+            Log.v(TAG, "Updated at: " + feed.getUpdated());
+            Log.v(TAG, "Title: " + feed.getTitle());
+            Log.v(TAG, "SubTitle: " + feed.getSubtitle());
+
+            mEntries = new ArrayList<>(feed.getEntries());
+            mAdapter.setEntries(mEntries);
+            mAdapter.notifyDataSetChanged();
+        } else {
+
+            Log.w(TAG, "Error while retrieving the feed. Feed is null!");
+        }
     }
 
     @Override
