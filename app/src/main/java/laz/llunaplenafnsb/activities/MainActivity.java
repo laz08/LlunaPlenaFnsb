@@ -1,6 +1,7 @@
 package laz.llunaplenafnsb.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -253,9 +254,10 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
      */
     private void showError() {
 
+        Resources res = getResources();
         Snackbar snackbar = Snackbar
-                .make(mCoordLayout, getResources().getString(R.string.error_feed_null), Snackbar.LENGTH_INDEFINITE)
-                .setAction("Torna-hi", new View.OnClickListener() {
+                .make(mCoordLayout, res.getString(R.string.error_feed_null), Snackbar.LENGTH_INDEFINITE)
+                .setAction(res.getString(R.string.retry), new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {

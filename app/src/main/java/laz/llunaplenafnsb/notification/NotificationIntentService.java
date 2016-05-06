@@ -51,11 +51,19 @@ public class NotificationIntentService extends IntentService {
             if (ACTION_START.equals(action)) {
 
                 Log.v(TAG, "Is start action");
-                processStartNotification();
+                checkIfNewUpdate();
             }
         } finally {
             WakefulBroadcastReceiver.completeWakefulIntent(intent);
         }
+    }
+
+    /**
+     * Checks if there's a new update.
+     */
+    private void checkIfNewUpdate() {
+
+        processStartNotification();
     }
 
     /**
