@@ -1,4 +1,4 @@
-package laz.llunaplenafnsb.pref;
+package laz.llunaplenafnsb.preferences;
 
 public class PreferencesValues {
 

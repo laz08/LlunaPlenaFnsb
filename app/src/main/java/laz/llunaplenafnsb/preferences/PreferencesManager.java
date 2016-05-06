@@ -1,4 +1,4 @@
-package laz.llunaplenafnsb.pref;
+package laz.llunaplenafnsb.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

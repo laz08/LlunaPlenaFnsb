@@ -4,11 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
-import laz.llunaplenafnsb.pref.PreferencesManager;
+import laz.llunaplenafnsb.preferences.PreferencesManager;
 
 /**
  * Notification event receiver.
@@ -29,13 +28,13 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
         int freq = PreferencesManager.getFrequencyCheckUpdates(ctx);
         Log.v(TAG, "Will trigger every " + freq + " hours");
-//        long intervalInMillis = AlarmManager.INTERVAL_HOUR * freq;
-        long intervalInMillis = SystemClock.elapsedRealtime() + 60 * 1000 * freq;
+        long intervalInMillis = AlarmManager.INTERVAL_HOUR * freq;
+//        long intervalInMillis = 60 * 1000 * freq; //Uncheck this if you want to debug and check it every X minutes!
 
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(ctx);
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                intervalInMillis,
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + intervalInMillis,
                 intervalInMillis,
                 alarmIntent);
     }

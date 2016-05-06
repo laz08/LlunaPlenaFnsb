@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.helper.NotificationHelper;
 import laz.llunaplenafnsb.notification.NotificationEventReceiver;
-import laz.llunaplenafnsb.pref.PreferencesManager;
+import laz.llunaplenafnsb.preferences.PreferencesManager;
 
 /**
  * Settings activity.
