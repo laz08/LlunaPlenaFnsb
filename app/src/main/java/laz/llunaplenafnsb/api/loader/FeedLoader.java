@@ -2,196 +2,94 @@ package laz.llunaplenafnsb.api.loader;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.api.ApiConstant;
 import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.Feed;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
- * Feed fetcher task.
+ * Feed loader manager.
  */
-
-//https://medium.com/google-developers/making-loading-data-on-android-lifecycle-aware-897e12760832#.x4dgmnp90
-public class FeedLoader extends AsyncTaskLoader<Feed> {
+public class FeedLoader {
 
     public static final String TAG = "FeedLoader";
 
-    public static FeedLoader mLoader;
-
-    private Context mContext;
-    private Feed mData;
-
-
-    /**
-     * Returns instance.
-     *
-     * @param ctx Context.
-     * @return Feed loader.
-     */
-    public static FeedLoader getInstance(Context ctx) {
-
-        if (mLoader == null) {
-
-            mLoader = new FeedLoader(ctx);
-        }
-
-        return mLoader;
-    }
+    private static FeedLoader mManager;
+    private OkHttpClient mHttpClient;
 
     /**
      * Constructor.
-     *
-     * @param ctx Context.
      */
-    private FeedLoader(Context ctx) {
+    private FeedLoader() {
 
-        super(ctx);
-        mContext = ctx;
-    }
-
-    @Override
-    protected void onStartLoading() {
-
-        if (mData != null) {
-
-            deliverResult(mData);
-        } else {
-
-            forceLoad();
-        }
-    }
-
-    @Override
-    public Feed loadInBackground() {
-
-        String feedJSON = requestFeed();
-        if (feedJSON != null && hasNetworkConnection()) {
-
-            try {
-
-                JSONObject json = new JSONObject(feedJSON);
-                Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
-                if (json.has(ApiConstant.FEED)) {
-
-                    mData = FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
-                }
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
-
-        return mData;
+        mHttpClient = new OkHttpClient();
     }
 
     /**
-     * Requests main feed.
+     * Returns single instance.
+     *
+     * @return Feed loader manager instance.
      */
-    private String requestFeed() {
+    public static FeedLoader getInstance() {
 
-        Resources res = mContext.getResources();
+        if (mManager == null) {
 
-        HttpURLConnection connection = null;
-        int ret = 0;
-        boolean hasConnected = false;
-        while (ret < 3 && !hasConnected) {
+            mManager = new FeedLoader();
+        }
 
-            Log.v(TAG, "Retry num.: " + ret);
-            try {
+        return mManager;
+    }
 
-                String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
-                Log.v(TAG, "Request URL: " + requestURL);
-                URL url = new URL(requestURL);
+    /**
+     * Loads feed.
+     *
+     * @return Feed. Null if could not load the feed.
+     */
+    public void loadFeed(Context ctx, Callback callback) {
 
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod(GET_METHOD);
-                connection.setUseCaches(false);
-                connection.setConnectTimeout(TIMEOUT);
-                connection.connect();
+        Resources res = ctx.getResources();
+        String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
+        Log.v(TAG, "Request URL: " + requestURL);
 
-                if (hasConnectedCorrectly(connection)) {
+        Request req = new Request.Builder()
+                .url(requestURL)
+                .build();
 
-                    Log.v(TAG, "Connected correctly.");
-                    hasConnected = true;
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    String responseLine;
-                    while ((responseLine = bufferedReader.readLine()) != null) {
-
-                        stringBuilder.append(responseLine + "\n");
-                    }
-
-                    bufferedReader.close();
-                    return stringBuilder.toString();
+        Call call = mHttpClient.newCall(req);
+        call.enqueue(callback);
+    }
 
 
-                } else {
+    /**
+     * Parses feed string.
+     *
+     * @param feedJSON Json feed as string.
+     * @return Parsed feed.
+     */
+    public Feed parseFeed(String feedJSON) {
 
-                    Log.v(TAG, "unable to connect.");
-                }
+        try {
 
-            } catch (IOException e) {
+            JSONObject json = new JSONObject(feedJSON);
+            Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
+            if (json.has(ApiConstant.FEED)) {
 
-                Log.v(TAG, "IOException");
-//                e.printStackTrace();
-            } finally {
-
-                ret++;
-                if (connection != null) {
-
-                    connection.disconnect();
-                }
+                return FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
             }
+        } catch (JSONException e) {
+
+            Log.v(TAG, "Error while parsing.");
         }
         return null;
     }
-
-    /**
-     * Determines if connection has been successful.
-     *
-     * @param connection Connection.
-     * @return True if connection has been successful. False otherwise.
-     * @throws IOException
-     */
-    private boolean hasConnectedCorrectly(HttpURLConnection connection) throws IOException {
-
-        return connection.getResponseCode() == 200 || connection.getResponseCode() == 201;
-    }
-
-    /**
-     * Determines if device has internet connection.
-     *
-     * @return True if has internet connection. False otherwise.
-     */
-    private boolean hasNetworkConnection() {
-
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
-
-    @Override
-    public void deliverResult(Feed data) {
-
-        mData = data;
-        super.deliverResult(data);
-    }
-
-
-    private static final String GET_METHOD = "GET";
-    private static final int TIMEOUT = 500;
 
 }
