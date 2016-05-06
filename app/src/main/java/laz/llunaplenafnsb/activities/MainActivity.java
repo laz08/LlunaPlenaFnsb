@@ -3,7 +3,9 @@ package laz.llunaplenafnsb.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -55,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
 
     @Bind(R.id.navigation_view)
     NavigationView mNavigationView;
+
+    @Bind(R.id.coord_lay)
+    CoordinatorLayout mCoordLayout;
 
     private HomeEntriesAdapter mAdapter;
     private ArrayList<EntryItem> mEntries;
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
 
         LoaderManager loaderManager = getSupportLoaderManager();
         Loader<Object> loader = loaderManager.getLoader(LOADER_ID);
-        if (loader == null) {
+        if (loader != null) {
 
             loaderManager.destroyLoader(LOADER_ID);
         }
@@ -238,7 +244,27 @@ public class MainActivity extends AppCompatActivity implements FeedLoaderCallbac
         } else {
 
             Log.w(TAG, "Error while retrieving the feed. Feed is null!");
+            showError();
         }
+    }
+
+    /**
+     * Shows error when feed could not be loaded.
+     */
+    private void showError() {
+
+        Snackbar snackbar = Snackbar
+                .make(mCoordLayout, getResources().getString(R.string.error_feed_null), Snackbar.LENGTH_INDEFINITE)
+                .setAction("Torna-hi", new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        mSwipeRefreshLayout.setRefreshing(true);
+                        registerLoader();
+                    }
+                });
+        snackbar.show();
     }
 
     @Override

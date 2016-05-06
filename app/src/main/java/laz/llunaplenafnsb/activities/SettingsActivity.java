@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,9 +15,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.helper.NotificationHelper;
+import laz.llunaplenafnsb.notification.NotificationEventReceiver;
 import laz.llunaplenafnsb.pref.PreferencesManager;
 
+/**
+ * Settings activity.
+ */
 public class SettingsActivity extends AppCompatActivity {
+
+    public static final String TAG = "SettingsActivity";
 
     @Bind(R.id.check_upd_checkb)
     CheckBox mCheckForUpdates;
@@ -87,6 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
      */
     private void storeChosenFrequency(int id) {
 
+        Log.v(TAG, "Storing chosen frequency");
         switch (id) {
 
             case R.id.freq_1_h:
@@ -109,6 +117,10 @@ public class SettingsActivity extends AppCompatActivity {
                 PreferencesManager.storeFrequencyCheckUpdates(this, HOUR_24);
                 break;
         }
+
+        NotificationEventReceiver.cancelAlarm(this);
+        NotificationEventReceiver.setUpAlarm(this);
+
     }
 
     /**
@@ -154,9 +166,11 @@ public class SettingsActivity extends AppCompatActivity {
         if (isChecked) {
 
             NotificationHelper.enableAutoCheck(this);
+            NotificationEventReceiver.setUpAlarm(this);
         } else {
 
             NotificationHelper.disableAutoCheckUpdates(this);
+            NotificationEventReceiver.cancelAlarm(this);
         }
     }
 

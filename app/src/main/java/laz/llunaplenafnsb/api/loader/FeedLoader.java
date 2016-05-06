@@ -2,6 +2,7 @@ package laz.llunaplenafnsb.api.loader;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
@@ -77,7 +78,7 @@ public class FeedLoader extends AsyncTaskLoader<Feed> {
     public Feed loadInBackground() {
 
         String feedJSON = requestFeed();
-        if (feedJSON != null) {
+        if (feedJSON != null && hasNetworkConnection()) {
 
             try {
 
@@ -104,51 +105,58 @@ public class FeedLoader extends AsyncTaskLoader<Feed> {
         Resources res = mContext.getResources();
 
         HttpURLConnection connection = null;
+        int ret = 0;
+        boolean hasConnected = false;
+        while (ret < 3 && !hasConnected) {
 
-        try {
+            Log.v(TAG, "Retry num.: " + ret);
+            try {
 
-            String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
-            Log.v(TAG, "Request URL: " + requestURL);
-            URL url = new URL(requestURL);
+                String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
+                Log.v(TAG, "Request URL: " + requestURL);
+                URL url = new URL(requestURL);
 
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(GET_METHOD);
-            connection.setUseCaches(false);
-            connection.setConnectTimeout(TIMEOUT);
-            connection.connect();
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod(GET_METHOD);
+                connection.setUseCaches(false);
+                connection.setConnectTimeout(TIMEOUT);
+                connection.connect();
 
-            if (hasConnectedCorrectly(connection)) {
+                if (hasConnectedCorrectly(connection)) {
 
-                Log.v(TAG, "Connected correctly.");
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
+                    Log.v(TAG, "Connected correctly.");
+                    hasConnected = true;
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
 
-                String responseLine;
-                while ((responseLine = bufferedReader.readLine()) != null) {
+                    String responseLine;
+                    while ((responseLine = bufferedReader.readLine()) != null) {
 
-                    stringBuilder.append(responseLine + "\n");
+                        stringBuilder.append(responseLine + "\n");
+                    }
+
+                    bufferedReader.close();
+                    return stringBuilder.toString();
+
+
+                } else {
+
+                    Log.v(TAG, "unable to connect.");
                 }
 
-                bufferedReader.close();
-                return stringBuilder.toString();
+            } catch (IOException e) {
 
+                Log.v(TAG, "IOException");
+//                e.printStackTrace();
+            } finally {
 
-            } else {
+                ret++;
+                if (connection != null) {
 
-                Log.v(TAG, "unable to connect.");
-            }
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        } finally {
-
-            if (connection != null) {
-
-                connection.disconnect();
+                    connection.disconnect();
+                }
             }
         }
-
         return null;
     }
 
@@ -164,6 +172,16 @@ public class FeedLoader extends AsyncTaskLoader<Feed> {
         return connection.getResponseCode() == 200 || connection.getResponseCode() == 201;
     }
 
+    /**
+     * Determines if device has internet connection.
+     *
+     * @return True if has internet connection. False otherwise.
+     */
+    private boolean hasNetworkConnection() {
+
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
 
     @Override
     public void deliverResult(Feed data) {

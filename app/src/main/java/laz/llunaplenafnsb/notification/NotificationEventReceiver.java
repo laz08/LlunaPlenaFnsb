@@ -4,10 +4,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
-
-import java.util.Calendar;
 
 import laz.llunaplenafnsb.pref.PreferencesManager;
 
@@ -28,11 +27,16 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
         Log.v(TAG, "Setting up alarm");
 
+        int freq = PreferencesManager.getFrequencyCheckUpdates(ctx);
+        Log.v(TAG, "Will trigger every " + freq + " hours");
+//        long intervalInMillis = AlarmManager.INTERVAL_HOUR * freq;
+        long intervalInMillis = SystemClock.elapsedRealtime() + 60 * 1000 * freq;
+
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(ctx);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                Calendar.getInstance().getTimeInMillis(),
-                AlarmManager.INTERVAL_HOUR * PreferencesManager.getFrequencyCheckUpdates(ctx),
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                intervalInMillis,
+                intervalInMillis,
                 alarmIntent);
     }
 
@@ -49,6 +53,20 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         return PendingIntent.getBroadcast(ctx, NotificationCodes.REQUEST_CODE, i, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+
+    /**
+     * Cancels the alarm.
+     *
+     * @param ctx Context.
+     */
+    public static void cancelAlarm(Context ctx) {
+
+        Log.v(TAG, "Canceling alarm");
+        Intent i = new Intent(ctx, NotificationEventReceiver.class);
+        PendingIntent pendInt = PendingIntent.getBroadcast(ctx, NotificationCodes.REQUEST_CODE, i, 0);
+        ((AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE)).cancel(pendInt);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -62,7 +80,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
             setUpAlarm(context);
         }
-
     }
 
 }
