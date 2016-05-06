@@ -57,7 +57,8 @@ public class FeedLoader {
     public void loadFeed(Context ctx, Callback callback) {
 
         Resources res = ctx.getResources();
-        String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
+//        String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
+        String requestURL = res.getString(R.string.blog_url) + "?key=" + res.getString(R.string.apiKey_blogger);
         Log.v(TAG, "Request URL: " + requestURL);
 
         Request req = new Request.Builder()
@@ -80,11 +81,8 @@ public class FeedLoader {
         try {
 
             JSONObject json = new JSONObject(feedJSON);
-            Log.v(TAG, "Json has feed: " + json.has(ApiConstant.FEED));
-            if (json.has(ApiConstant.FEED)) {
+            return FeedParser.parse(json);
 
-                return FeedParser.parse(json.getJSONObject(ApiConstant.FEED));
-            }
         } catch (JSONException e) {
 
             Log.v(TAG, "Error while parsing.");

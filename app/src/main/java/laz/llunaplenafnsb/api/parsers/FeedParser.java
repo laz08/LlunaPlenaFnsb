@@ -1,5 +1,7 @@
 package laz.llunaplenafnsb.api.parsers;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +13,7 @@ import laz.llunaplenafnsb.items.Feed;
  */
 public class FeedParser {
 
-//    public static final String TAG = "FeedParser";
+    public static final String TAG = "FeedParser";
 
     public static Feed parse(JSONObject json) {
 
@@ -20,13 +22,13 @@ public class FeedParser {
         Feed item = new Feed();
         try {
 
-            item.setTitle(NestedStringParser.parseTitle(json.getJSONObject(ApiConstant.TITLE)));
-            item.setSubtitle(NestedStringParser.parseSubtitle(json.getJSONObject(ApiConstant.SUBTITLE)));
-            item.setUpdated(NestedStringParser.parseUpdated(json.getJSONObject(ApiConstant.UPDATED)));
-            if (json.has(ApiConstant.ENTRY)) {
+            Log.v(TAG, "Name: " + json.getString(ApiConstant.NAME));
+            item.setName(json.getString(ApiConstant.NAME));
+            item.setDescription(json.getString(ApiConstant.DESCRIPTION));
+            item.setUpdated(json.getString(ApiConstant.UPDATED));
+            item.setUrl(json.getString(ApiConstant.URL));
 
-                item.setEntries(EntryParser.parse(json.getJSONArray(ApiConstant.ENTRY)));
-            }
+            item.setPosts(EntryParser.parse(json.getJSONArray(ApiConstant.POSTS)));
 
         } catch (JSONException e) {
 

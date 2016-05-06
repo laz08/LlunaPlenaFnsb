@@ -7,13 +7,41 @@ import java.util.List;
  */
 public class Feed {
 
+
+    private String mName;
+
+    private String mDescription;
+    private String mUrl;
+
     private String mUpdated;
 
-    private String mTitle;
-    private String mSubtitle;
 
-    private List<Link> mLinks;
-    private List<EntryItem> mEntries;
+    private List<EntryItem> mPosts;
+
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public void setUrl(String url) {
+        mUrl = url;
+    }
 
     public String getUpdated() {
         return mUpdated;
@@ -23,35 +51,12 @@ public class Feed {
         mUpdated = updated;
     }
 
-    public String getTitle() {
-        return mTitle;
+    public List<EntryItem> getPosts() {
+        return mPosts;
     }
 
-    public void setTitle(String title) {
-        mTitle = title;
+    public void setPosts(List<EntryItem> posts) {
+        mPosts = posts;
     }
 
-    public String getSubtitle() {
-        return mSubtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        mSubtitle = subtitle;
-    }
-
-    public List<EntryItem> getEntries() {
-        return mEntries;
-    }
-
-    public void setEntries(List<EntryItem> entries) {
-        mEntries = entries;
-    }
-
-    public List<Link> getLinks() {
-        return mLinks;
-    }
-
-    public void setLinks(List<Link> links) {
-        mLinks = links;
-    }
 }

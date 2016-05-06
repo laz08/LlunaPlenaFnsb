@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
     @Bind(R.id.coord_lay)
     CoordinatorLayout mCoordLayout;
-
-    @Bind(R.id.no_content_view)
-    RelativeLayout mNoContentView;
 
     private HomeEntriesAdapter mAdapter;
     private ArrayList<EntryItem> mEntries;
@@ -167,13 +163,11 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         if (response.isSuccessful()) {
 
             loadData(FeedLoader.getInstance().parseFeed(response.body().toString()));
-            mNoContentView.setVisibility(View.GONE);
 
         } else {
 
             Log.v(TAG, "Response not successful!");
             mSwipeRefreshLayout.setRefreshing(false);
-            mNoContentView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -188,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         e.printStackTrace();
         showError();
         mSwipeRefreshLayout.setRefreshing(false);
-        mNoContentView.setVisibility(View.VISIBLE);
     }
 
 
