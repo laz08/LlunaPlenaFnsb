@@ -9,9 +9,8 @@ import android.os.Parcelable;
 public class AuthorItem implements Parcelable {
 
     private String mName;
-    private String mEmail;
     private ThumbnailItem mThumbnail;
-    private String mUri; //Optional
+    private String mUrl; //Optional
 
 
     public String getName() {
@@ -22,14 +21,6 @@ public class AuthorItem implements Parcelable {
         mName = name;
     }
 
-    public String getEmail() {
-        return mEmail;
-    }
-
-    public void setEmail(String email) {
-        mEmail = email;
-    }
-
     public ThumbnailItem getThumbnail() {
         return mThumbnail;
     }
@@ -38,12 +29,12 @@ public class AuthorItem implements Parcelable {
         mThumbnail = thumbnail;
     }
 
-    public String getUri() {
-        return mUri;
+    public String getUrl() {
+        return mUrl;
     }
 
-    public void setUri(String uri) {
-        mUri = uri;
+    public void setUrl(String url) {
+        mUrl = url;
     }
 
     @Override
@@ -55,9 +46,8 @@ public class AuthorItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeString(mName);
-        dest.writeString(mEmail);
         dest.writeParcelable(mThumbnail, flags);
-        dest.writeString(mUri);
+        dest.writeString(mUrl);
     }
 
     public AuthorItem() {
@@ -66,9 +56,8 @@ public class AuthorItem implements Parcelable {
     protected AuthorItem(Parcel in) {
 
         mName = in.readString();
-        mEmail = in.readString();
         mThumbnail = in.readParcelable(ThumbnailItem.class.getClassLoader());
-        mUri = in.readString();
+        mUrl = in.readString();
     }
 
     public static final Parcelable.Creator<AuthorItem> CREATOR = new Parcelable.Creator<AuthorItem>() {

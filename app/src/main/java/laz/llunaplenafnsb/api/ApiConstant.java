@@ -8,6 +8,7 @@ public class ApiConstant {
     public static final String AUTHOR = "author";
     public static final String DESCRIPTION = "description";
     public static final String POSTS = "posts";
+    public static final String SELF_LINK = "selfLink";
 
     public static final String CATEGORY = "category";
     public static final String EMAIL = "email";
@@ -18,6 +19,7 @@ public class ApiConstant {
     public static final String IMAGE = "gd$image";
     public static final String LINK = "link";
     public static final String NAME = "name";
+    public static final String DISPLAY_NAME = "displayName";
     public static final String PUBLISHED = "published";
     public static final String URI = "uri";
     public static final String UPDATED = "updated";
@@ -30,4 +32,6 @@ public class ApiConstant {
     public static final String TITLE = "title";
     public static final String URL = "url";
     public static final String WIDTH = "width";
+    public static final String ITEMS = "items";
+    public static final String CONTENT = "content";
 }

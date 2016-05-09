@@ -17,7 +17,15 @@ public class Feed {
 
 
     private List<EntryItem> mPosts;
+    private String mPostsUrl;
 
+    public String getPostsUrl() {
+        return mPostsUrl;
+    }
+    public void setPostsUrl(String url){
+
+        mPostsUrl = url;
+    }
 
     public String getName() {
         return mName;

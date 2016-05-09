@@ -28,7 +28,8 @@ public class FeedParser {
             item.setUpdated(json.getString(ApiConstant.UPDATED));
             item.setUrl(json.getString(ApiConstant.URL));
 
-            item.setPosts(EntryParser.parse(json.getJSONArray(ApiConstant.POSTS)));
+            JSONObject jsonPosts = json.getJSONObject(ApiConstant.POSTS);
+            item.setPostsUrl(jsonPosts.getString(ApiConstant.SELF_LINK));
 
         } catch (JSONException e) {
 

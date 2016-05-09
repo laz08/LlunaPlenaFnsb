@@ -1,5 +1,6 @@
 package laz.llunaplenafnsb.api.parsers;
 
+import android.text.Html;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -58,16 +59,11 @@ public class EntryParser {
         EntryItem entry = new EntryItem();
         try {
 
-            entry.setTitle(NestedStringParser.parseTitle(json.getJSONObject(ApiConstant.TITLE)));
-//            entry.setLinks(); //TODO: SET LINKS
-            entry.setUpdated(NestedStringParser.parseUpdated(json.getJSONObject(ApiConstant.UPDATED)));
-            entry.setAuthor(AuthorParser.parseFirstAuthor(json.getJSONArray(ApiConstant.AUTHOR)));
+            entry.setTitle(json.getString(ApiConstant.TITLE));
+            entry.setUpdated(json.getString(ApiConstant.UPDATED));
+            entry.setAuthor(AuthorParser.parse(json.getJSONObject(ApiConstant.AUTHOR)));
 
-            if (json.has(ApiConstant.SUMMARY)) {
-
-                entry.setSummary(NestedStringParser.parseSummary(json.getJSONObject(ApiConstant.SUMMARY)));
-            }
-
+            entry.setContent(Html.fromHtml(json.getString(ApiConstant.CONTENT)).toString());
             if (json.has(ApiConstant.THUMBNAIL)) {
 
                 entry.setThumbnail(ThumbnailParser.parse(json.getJSONObject(ApiConstant.THUMBNAIL)));

@@ -79,7 +79,7 @@ public class EntryItemView extends FrameLayout {
         mEntry = entry;
 
         mTitle.setText(entry.getTitle());
-        mSummary.setText(entry.getSummary());
+//        mSummary.setText(entry.getContent());
         if (entry.hasImage()) {
 
 //            Log.v(TAG, "Entry has image. Title: " + entry.getTitle());

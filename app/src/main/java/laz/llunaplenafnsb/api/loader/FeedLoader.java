@@ -7,9 +7,13 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.api.ApiConstant;
+import laz.llunaplenafnsb.api.parsers.EntryParser;
 import laz.llunaplenafnsb.api.parsers.FeedParser;
+import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -90,4 +94,45 @@ public class FeedLoader {
         return null;
     }
 
+    /**
+     * Loads feed.
+     *
+     * @return Feed. Null if could not load the feed.
+     */
+    public void loadEntries(Context ctx, Callback callback, Feed feed) {
+
+        Resources res = ctx.getResources();
+        String requestURL = feed.getPostsUrl() + "?key=" + res.getString(R.string.apiKey_blogger);
+        Log.v(TAG, "Request URL: " + requestURL);
+
+        Request req = new Request.Builder()
+                .url(requestURL)
+                .build();
+
+        Call call = mHttpClient.newCall(req);
+        call.enqueue(callback);
+    }
+
+    /**
+     * Parses entries.
+     *
+     * @param entriesJSON Entries json.
+     * @return
+     */
+    public List<EntryItem> parseEntries(String entriesJSON) {
+
+        try {
+
+            JSONObject json = new JSONObject(entriesJSON);
+            if (json.has(ApiConstant.ITEMS)) {
+
+                return EntryParser.parse(json.getJSONArray(ApiConstant.ITEMS));
+            }
+
+        } catch (JSONException e) {
+
+            Log.v(TAG, "Error while parsing.");
+        }
+        return null;
+    }
 }

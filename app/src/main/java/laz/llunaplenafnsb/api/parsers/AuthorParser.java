@@ -1,6 +1,5 @@
 package laz.llunaplenafnsb.api.parsers;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,28 +14,6 @@ public class AuthorParser {
 //    public static final String TAG = "AuthorParser";
 
     /**
-     * Parses first author from an array of authors.
-     *
-     * @param jsonArray JSON array of authors.
-     * @return First author parsed from array.
-     */
-    public static AuthorItem parseFirstAuthor(JSONArray jsonArray) {
-
-//        Log.v(TAG, "Parsing first author.");
-        if (jsonArray != null && jsonArray.length() > 0) {
-
-            try {
-
-                return parse(jsonArray.getJSONObject(0));
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    /**
      * Parses an author.
      *
      * @param json Json object.
@@ -48,8 +25,8 @@ public class AuthorParser {
         AuthorItem author = new AuthorItem();
         try {
 
-            author.setName(NestedStringParser.parseName(json.getJSONObject(ApiConstant.NAME)));
-            author.setEmail(NestedStringParser.parseEmail(json.getJSONObject(ApiConstant.EMAIL)));
+            author.setName(json.getString(ApiConstant.DISPLAY_NAME));
+            author.setUrl(json.getString(ApiConstant.URL));
             author.setThumbnail(ThumbnailParser.parse(json.getJSONObject(ApiConstant.IMAGE)));
         } catch (JSONException e) {
 

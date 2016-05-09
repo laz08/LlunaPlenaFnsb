@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
     private HomeEntriesAdapter mAdapter;
     private ArrayList<EntryItem> mEntries;
+    private Feed mFeed;
 
 
     @Override
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                     @Override
                     public void run() {
 
-                        manageResponse(response);
+                        manageFeedResponse(response);
                     }
                 });
 
@@ -158,11 +159,47 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
      *
      * @param response Response.
      */
-    private void manageResponse(Response response) {
+    private void manageFeedResponse(Response response) {
 
+        final Context ctx = getApplicationContext();
         if (response.isSuccessful()) {
 
-            loadData(FeedLoader.getInstance().parseFeed(response.body().toString()));
+            try {
+
+                mFeed = FeedLoader.getInstance().parseFeed(response.body().string());
+                FeedLoader.getInstance().loadEntries(this, new Callback() {
+
+                    Handler handler = new Handler(ctx.getMainLooper());
+
+                    @Override
+                    public void onFailure(Call call, final IOException e) {
+                        handler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                manageFailure(e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                manageEntriesResponse(response);
+                            }
+                        });
+                    }
+                }, mFeed);
+
+            } catch (IOException e) {
+
+                Log.v(TAG, "Unable to get body as string :(");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
 
         } else {
 
@@ -170,6 +207,35 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
             mSwipeRefreshLayout.setRefreshing(false);
         }
     }
+
+
+    /**
+     * Manages response.
+     *
+     * @param response Response.
+     */
+    private void manageEntriesResponse(Response response) {
+
+        if (response.isSuccessful()) {
+
+            try {
+
+                mFeed.setPosts(FeedLoader.getInstance().parseEntries(response.body().string()));
+                loadData();
+
+            } catch (IOException e) {
+
+                Log.v(TAG, "Unable to get body as string :(");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+        } else {
+
+            Log.v(TAG, "Response not successful!");
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
 
     /**
      * Manages failure on petitions.
@@ -279,20 +345,19 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
     /**
      * Loads feed data into activity.
-     *
-     * @param feed Feed.
      */
-    private void loadData(Feed feed) {
+    private void loadData() {
 
         mSwipeRefreshLayout.setRefreshing(false);
 
-        if (feed != null) {
+        if (mFeed != null) {
 
-            Log.v(TAG, "Updated at: " + feed.getUpdated());
-            Log.v(TAG, "Title: " + feed.getTitle());
-            Log.v(TAG, "SubTitle: " + feed.getSubtitle());
+            Log.v(TAG, "Updated at: " + mFeed.getUpdated());
+            Log.v(TAG, "Title: " + mFeed.getName());
+            Log.v(TAG, "Description: " + mFeed.getDescription());
+            Log.v(TAG, "Posts size: " + mFeed.getPosts().size());
 
-            mEntries = new ArrayList<>(feed.getEntries());
+            mEntries = new ArrayList<>(mFeed.getPosts());
             mAdapter.setEntries(mEntries);
             mAdapter.notifyDataSetChanged();
         } else {

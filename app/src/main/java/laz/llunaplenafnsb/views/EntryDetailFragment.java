@@ -58,7 +58,7 @@ public class EntryDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mTitle.setText(mEntry.getTitle());
-        mDescription.setText(mEntry.getSummary());
+        mDescription.setText(mEntry.getContent());
 
         ThumbnailItem thumb = mEntry.getThumbnail();
         if (thumb != null) {

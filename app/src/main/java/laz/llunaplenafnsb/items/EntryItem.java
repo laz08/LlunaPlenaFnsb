@@ -3,9 +3,6 @@ package laz.llunaplenafnsb.items;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * EntryItem.
  */
@@ -14,9 +11,8 @@ public class EntryItem implements Parcelable {
     private String mUpdated;
 
     private String mTitle;
-    private String mSummary;
+    private String mContent;
 
-    private List<Link> mLinks;
     private AuthorItem mAuthor;
 
     private ThumbnailItem mThumbnail;
@@ -29,20 +25,12 @@ public class EntryItem implements Parcelable {
         mTitle = title;
     }
 
-    public String getSummary() {
-        return mSummary;
+    public String getContent() {
+        return mContent;
     }
 
-    public void setSummary(String summary) {
-        mSummary = summary;
-    }
-
-    public List<Link> getLinks() {
-        return mLinks;
-    }
-
-    public void setLinks(List<Link> links) {
-        mLinks = links;
+    public void setContent(String content) {
+        mContent = content;
     }
 
     public AuthorItem getAuthor() {
@@ -90,8 +78,7 @@ public class EntryItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mUpdated);
         dest.writeString(mTitle);
-        dest.writeString(mSummary);
-        dest.writeList(mLinks);
+        dest.writeString(mContent);
         dest.writeParcelable(mAuthor, 0);
         dest.writeParcelable(mThumbnail, 0);
     }
@@ -102,9 +89,9 @@ public class EntryItem implements Parcelable {
     protected EntryItem(Parcel in) {
         mUpdated = in.readString();
         mTitle = in.readString();
-        mSummary = in.readString();
-        mLinks = new ArrayList<Link>();
-        in.readList(mLinks, List.class.getClassLoader());
+        mContent = in.readString();
+//        mLinks = new ArrayList<Link>();
+//        in.readList(mLinks, List.class.getClassLoader());
         mAuthor = in.readParcelable(AuthorItem.class.getClassLoader());
         mThumbnail = in.readParcelable(ThumbnailItem.class.getClassLoader());
     }

@@ -41,7 +41,7 @@ public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder
     @Override
     public EntryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new EntryItemViewHolder(new EntryItemView(parent.getContext()));
+        return new EntryItemViewHolder(new EntryItemView(parent));
     }
 
     @Override
