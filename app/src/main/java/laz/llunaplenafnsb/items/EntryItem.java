@@ -2,6 +2,7 @@ package laz.llunaplenafnsb.items;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Html;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +19,98 @@ public class EntryItem implements Parcelable {
 
     private AuthorItem mAuthor;
 
-    private ThumbnailItem mThumbnail;
+
+    /**
+     * Constructor.
+     */
+    public EntryItem() {
+
+    }
+
+    /**
+     * Parses img from tags.
+     *
+     * @return Img url from content.
+     */
+    public String getImgFromContent() {
+
+        if (mContent != null) {
+
+            Document doc = Jsoup.parse(mContent);
+            return doc.getElementsByTag("img").attr("src");
+        }
+        return null;
+    }
+
+    /**
+     * Returns content as text (no tags).o
+     *
+     * @return Context parsed.
+     */
+    public String getContentAsText() {
+
+        if (mContent != null) {
+
+            Document doc = Jsoup.parse(mContent);
+            return doc.text();
+        }
+        return null;
+    }
+
+    /**
+     * Returns content as text (no tags).o
+     *
+     * @return Context parsed.
+     */
+    public String getContentAsFormattedText() {
+
+        if (mContent != null) {
+
+            return Html.fromHtml(mContent).toString();
+        }
+        return null;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mUpdated);
+        dest.writeString(mTitle);
+        dest.writeString(mContent);
+        dest.writeParcelable(mAuthor, 0);
+    }
+
+    /**
+     * Constructor from parcel.
+     *
+     * @param in Parcel in.
+     */
+    protected EntryItem(Parcel in) {
+
+        mUpdated = in.readString();
+        mTitle = in.readString();
+        mContent = in.readString();
+        mAuthor = in.readParcelable(AuthorItem.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<EntryItem> CREATOR = new Parcelable.Creator<EntryItem>() {
+        public EntryItem createFromParcel(Parcel source) {
+            return new EntryItem(source);
+        }
+
+        public EntryItem[] newArray(int size) {
+            return new EntryItem[size];
+        }
+    };
+
+
+    //Getters and setters.
+    //TODO: Remove unused ones...
 
     public String getTitle() {
         return mTitle;
@@ -52,70 +144,5 @@ public class EntryItem implements Parcelable {
         mUpdated = updated;
     }
 
-    public void setThumbnail(ThumbnailItem thumbnail) {
 
-        mThumbnail = thumbnail;
-    }
-
-    public ThumbnailItem getThumbnail() {
-
-        return mThumbnail;
-    }
-
-    /**
-     * Determines if entry has image.
-     *
-     * @return True if entry has image. False otherwise.
-     */
-    public boolean hasImage() {
-
-        return mThumbnail != null && mThumbnail.getUrl() != null && mThumbnail.getUrl().length() > 0;
-    }
-
-    public String getImgFromContent() {
-
-        if (mContent != null) {
-
-            Document doc = Jsoup.parse(mContent);
-            return doc.getElementsByTag("img").attr("src");
-        }
-        return null;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mUpdated);
-        dest.writeString(mTitle);
-        dest.writeString(mContent);
-        dest.writeParcelable(mAuthor, 0);
-        dest.writeParcelable(mThumbnail, 0);
-    }
-
-    public EntryItem() {
-    }
-
-    protected EntryItem(Parcel in) {
-        mUpdated = in.readString();
-        mTitle = in.readString();
-        mContent = in.readString();
-//        mLinks = new ArrayList<Link>();
-//        in.readList(mLinks, List.class.getClassLoader());
-        mAuthor = in.readParcelable(AuthorItem.class.getClassLoader());
-        mThumbnail = in.readParcelable(ThumbnailItem.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<EntryItem> CREATOR = new Parcelable.Creator<EntryItem>() {
-        public EntryItem createFromParcel(Parcel source) {
-            return new EntryItem(source);
-        }
-
-        public EntryItem[] newArray(int size) {
-            return new EntryItem[size];
-        }
-    };
 }

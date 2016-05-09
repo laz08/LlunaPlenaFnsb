@@ -85,16 +85,13 @@ public class EntryItemView extends FrameLayout {
         mEntry = entry;
 
         mTitle.setText(entry.getTitle());
-        String content = Html.fromHtml(entry.getContent()).toString();
+        String content = entry.getContentAsText();
         String imgUrl = entry.getImgFromContent();
-//        Log.v(TAG, "Content: " + content.replaceAll("\\<[^>]*>", ""));
+
         mSummary.setText(content);
         if (imgUrl != null && imgUrl.trim().length() > 0) {
             Log.v(TAG, "First img url: " + imgUrl);
 
-//        if (entry.hasImage()) {
-
-//            Log.v(TAG, "Entry has image. Title: " + entry.getTitle());
             mImageView.setVisibility(VISIBLE);
             ImageLoaderHelper.loadImageInto(mImageView.getContext(), mImageView, imgUrl);
         } else {

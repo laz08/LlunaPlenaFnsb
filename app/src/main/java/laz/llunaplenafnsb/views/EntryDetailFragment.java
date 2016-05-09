@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.helper.ImageLoaderHelper;
 import laz.llunaplenafnsb.items.EntryItem;
-import laz.llunaplenafnsb.items.ThumbnailItem;
 
 /**
  * Entry detail view
@@ -58,12 +57,12 @@ public class EntryDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mTitle.setText(mEntry.getTitle());
-        mDescription.setText(mEntry.getContent());
+        mDescription.setText(mEntry.getContentAsFormattedText());
 
-        ThumbnailItem thumb = mEntry.getThumbnail();
-        if (thumb != null) {
+        String url = mEntry.getImgFromContent();
+        if (url != null && url.trim().length() > 0) {
 
-            ImageLoaderHelper.loadImageInto(getContext(), mToolbarImage, thumb.getUrl());
+            ImageLoaderHelper.loadImageInto(getContext(), mToolbarImage, url);
         }
         return view;
     }

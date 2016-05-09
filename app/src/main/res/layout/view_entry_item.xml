@@ -37,6 +37,7 @@
                 android:id="@+id/entry_summary"
                 style="@style/EntrySummaryStyle"
                 android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/entry_title"
                 android:layout_toLeftOf="@+id/entry_image"
