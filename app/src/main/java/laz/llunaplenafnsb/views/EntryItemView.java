@@ -2,9 +2,13 @@ package laz.llunaplenafnsb.views;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,7 +69,9 @@ public class EntryItemView extends FrameLayout {
      */
     private void initialize(Context context) {
 
-        View layout = inflate(context, R.layout.view_entry_item, this);
+        View layout = LayoutInflater.from(context).inflate(R.layout.view_entry_item, this);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layout.setLayoutParams(lp);
         ButterKnife.bind(this, layout);
     }
 
@@ -79,12 +85,18 @@ public class EntryItemView extends FrameLayout {
         mEntry = entry;
 
         mTitle.setText(entry.getTitle());
-//        mSummary.setText(entry.getContent());
-        if (entry.hasImage()) {
+        String content = Html.fromHtml(entry.getContent()).toString();
+        String imgUrl = entry.getImgFromContent();
+//        Log.v(TAG, "Content: " + content.replaceAll("\\<[^>]*>", ""));
+        mSummary.setText(content);
+        if (imgUrl != null && imgUrl.trim().length() > 0) {
+            Log.v(TAG, "First img url: " + imgUrl);
+
+//        if (entry.hasImage()) {
 
 //            Log.v(TAG, "Entry has image. Title: " + entry.getTitle());
             mImageView.setVisibility(VISIBLE);
-            ImageLoaderHelper.loadImageInto(mImageView.getContext(), mImageView, entry.getThumbnail().getUrl());
+            ImageLoaderHelper.loadImageInto(mImageView.getContext(), mImageView, imgUrl);
         } else {
 
             mImageView.setVisibility(GONE);

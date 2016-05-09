@@ -63,7 +63,7 @@ public class EntryParser {
             entry.setUpdated(json.getString(ApiConstant.UPDATED));
             entry.setAuthor(AuthorParser.parse(json.getJSONObject(ApiConstant.AUTHOR)));
 
-            entry.setContent(Html.fromHtml(json.getString(ApiConstant.CONTENT)).toString());
+            entry.setContent(json.getString(ApiConstant.CONTENT));
             if (json.has(ApiConstant.THUMBNAIL)) {
 
                 entry.setThumbnail(ThumbnailParser.parse(json.getJSONObject(ApiConstant.THUMBNAIL)));

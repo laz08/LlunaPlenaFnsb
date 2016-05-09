@@ -3,6 +3,9 @@ package laz.llunaplenafnsb.items;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 /**
  * EntryItem.
  */
@@ -67,6 +70,16 @@ public class EntryItem implements Parcelable {
     public boolean hasImage() {
 
         return mThumbnail != null && mThumbnail.getUrl() != null && mThumbnail.getUrl().length() > 0;
+    }
+
+    public String getImgFromContent() {
+
+        if (mContent != null) {
+
+            Document doc = Jsoup.parse(mContent);
+            return doc.getElementsByTag("img").attr("src");
+        }
+        return null;
     }
 
     @Override
