@@ -15,27 +15,30 @@ import laz.llunaplenafnsb.api.parsers.EntryParser;
 import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
 
 /**
  * Feed loader manager.
  */
-public class FeedLoader {
+public class FeedLoaderManager {
 
-    public static final String TAG = "FeedLoader";
+    public static final String TAG = "FeedLoaderManager";
 
-    private static FeedLoader mManager;
-    private OkHttpClient mHttpClient;
+    private static FeedLoaderManager mManager;
+    private FeedLoaderService mFeedService;
 
     /**
      * Constructor.
      */
-    private FeedLoader() {
+    private FeedLoaderManager(Context ctx) {
 
-        mHttpClient = new OkHttpClient();
+        Resources res = ctx.getResources();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(res.getString(R.string.blog_url))
+                .build();
+
+        mFeedService = retrofit.create(FeedLoaderService.class);
     }
 
     /**
@@ -43,34 +46,25 @@ public class FeedLoader {
      *
      * @return Feed loader manager instance.
      */
-    public static FeedLoader getInstance() {
+    public static FeedLoaderManager getInstance(Context ctx) {
 
         if (mManager == null) {
 
-            mManager = new FeedLoader();
+            mManager = new FeedLoaderManager(ctx);
         }
 
         return mManager;
     }
 
-    /**
-     * Loads feed.
-     *
-     * @return Feed. Null if could not load the feed.
-     */
-    public void loadFeed(Context ctx, Callback callback) {
 
-        Resources res = ctx.getResources();
-//        String requestURL = res.getString(R.string.baseURL) + res.getString(R.string.rssJson);
-        String requestURL = res.getString(R.string.blog_url) + "?key=" + res.getString(R.string.apiKey_blogger);
-        Log.v(TAG, "Request URL: " + requestURL);
+    public retrofit2.Call<ResponseBody> newLoadFeed(Context ctx) {
 
-        Request req = new Request.Builder()
-                .url(requestURL)
-                .build();
+        return mFeedService.getFeed(ctx.getResources().getString(R.string.apiKey_blogger));
+    }
 
-        Call call = mHttpClient.newCall(req);
-        call.enqueue(callback);
+    public retrofit2.Call<ResponseBody> newLoadEntries(Context ctx) {
+
+        return mFeedService.getPosts(ctx.getResources().getString(R.string.apiKey_blogger));
     }
 
 
@@ -92,25 +86,6 @@ public class FeedLoader {
             Log.v(TAG, "Error while parsing.");
         }
         return null;
-    }
-
-    /**
-     * Loads feed.
-     *
-     * @return Feed. Null if could not load the feed.
-     */
-    public void loadEntries(Context ctx, Callback callback, Feed feed) {
-
-        Resources res = ctx.getResources();
-        String requestURL = feed.getPostsUrl() + "?key=" + res.getString(R.string.apiKey_blogger);
-        Log.v(TAG, "Request URL: " + requestURL);
-
-        Request req = new Request.Builder()
-                .url(requestURL)
-                .build();
-
-        Call call = mHttpClient.newCall(req);
-        call.enqueue(callback);
     }
 
     /**

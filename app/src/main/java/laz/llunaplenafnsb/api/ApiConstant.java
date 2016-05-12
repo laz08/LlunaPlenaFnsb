@@ -9,29 +9,14 @@ public class ApiConstant {
     public static final String DESCRIPTION = "description";
     public static final String POSTS = "posts";
     public static final String SELF_LINK = "selfLink";
-
-    public static final String CATEGORY = "category";
-    public static final String EMAIL = "email";
-    public static final String ENTRY = "entry";
-    public static final String FEED = "feed";
-    public static final String HEIGHT = "height";
-    public static final String HREF = "href";
+    
     public static final String IMAGE = "image";
-    public static final String LINK = "link";
     public static final String NAME = "name";
     public static final String DISPLAY_NAME = "displayName";
-    public static final String PUBLISHED = "published";
-    public static final String URI = "uri";
     public static final String UPDATED = "updated";
-    public static final String REL = "rel";
-    public static final String SUBTITLE = "subtitle";
-    public static final String SUMMARY = "summary";
     public static final String SRC = "src";
-    public static final String _T = "$t";
-    public static final String THUMBNAIL = "media$thumbnail";
     public static final String TITLE = "title";
     public static final String URL = "url";
-    public static final String WIDTH = "width";
     public static final String ITEMS = "items";
     public static final String CONTENT = "content";
 }

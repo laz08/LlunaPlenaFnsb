@@ -44,7 +44,7 @@ public class ThumbnailItem implements Parcelable {
      * @param in Parcel input.
      */
     protected ThumbnailItem(Parcel in) {
-        
+
         mUrl = in.readString();
     }
 

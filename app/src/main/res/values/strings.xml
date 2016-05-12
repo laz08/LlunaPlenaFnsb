@@ -5,7 +5,7 @@
 
     <string name="main_title">Lluna Plena</string>
 
-    <string name="blog_url">https://www.googleapis.com/blogger/v3/blogs/3262650353206841577</string>
+    <string name="blog_url">https://www.googleapis.com/</string>
 
     <string name="home">Portada</string>
     <string name="config">Configuració</string>

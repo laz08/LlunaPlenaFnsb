@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -30,13 +29,12 @@ import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
 import laz.llunaplenafnsb.adapter.OnEntryClickListener;
-import laz.llunaplenafnsb.api.loader.FeedLoader;
+import laz.llunaplenafnsb.api.loader.FeedLoaderManager;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
 import laz.llunaplenafnsb.views.CustomSwipeRefreshLayout;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 /**
  * Main activity.
@@ -93,14 +91,14 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
 
-        registerLoader();
+        retrieveFeed();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh() {
 
-                registerLoader();
+                retrieveFeed();
             }
         });
 
@@ -117,123 +115,83 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
     /**
      * Registers feed loader.
      */
-    private void registerLoader() {
+    private void retrieveFeed() {
 
-        FeedLoader manager = FeedLoader.getInstance();
+        FeedLoaderManager manager = FeedLoaderManager.getInstance(this);
         final Context ctx = getApplicationContext();
-        manager.loadFeed(this, new Callback() {
-
-            Handler handler = new Handler(ctx.getMainLooper());
+        retrofit2.Call<ResponseBody> responseBodyCall = manager.newLoadFeed(ctx);
+        responseBodyCall.enqueue(new retrofit2.Callback<ResponseBody>() {
 
             @Override
-            public void onFailure(Call call, final IOException e) {
+            public void onResponse(retrofit2.Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
-                handler.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        manageFailure(e);
-                    }
-                });
+                onFeedResponse(response);
             }
 
             @Override
-            public void onResponse(Call call, final Response response) throws IOException {
+            public void onFailure(retrofit2.Call<ResponseBody> call, Throwable t) {
 
-                handler.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        manageFeedResponse(response);
-                    }
-                });
+                Log.v(TAG, "On failure");
+                //TODO: Show error
+                manageFailure();
 
             }
         });
     }
 
     /**
-     * Manages response.
+     * On feed response.
      *
      * @param response Response.
      */
-    private void manageFeedResponse(Response response) {
+    private void onFeedResponse(retrofit2.Response<ResponseBody> response) {
 
-        final Context ctx = getApplicationContext();
-        if (response.isSuccessful()) {
+        Log.v(TAG, "On response");
 
-            try {
+        try {
 
-                mFeed = FeedLoader.getInstance().parseFeed(response.body().string());
-                FeedLoader.getInstance().loadEntries(this, new Callback() {
+            retrievePosts(response);
 
-                    Handler handler = new Handler(ctx.getMainLooper());
+        } catch (IOException e) {
 
-                    @Override
-                    public void onFailure(Call call, final IOException e) {
-                        handler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-                                manageFailure(e);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(Call call, final Response response) throws IOException {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                manageEntriesResponse(response);
-                            }
-                        });
-                    }
-                }, mFeed);
-
-            } catch (IOException e) {
-
-                Log.v(TAG, "Unable to get body as string :(");
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-
-        } else {
-
-            Log.v(TAG, "Response not successful!");
-            mSwipeRefreshLayout.setRefreshing(false);
+            manageFailure(e);
         }
     }
 
-
     /**
-     * Manages response.
+     * Retrieves posts from the blog.
      *
-     * @param response Response.
+     * @param response Response body.
+     * @throws IOException IO Exception.
      */
-    private void manageEntriesResponse(Response response) {
+    private void retrievePosts(Response<ResponseBody> response) throws IOException {
 
-        if (response.isSuccessful()) {
+        FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(this);
+        mFeed = feedLoader.parseFeed(response.body().string());
+        retrofit2.Call<ResponseBody> itemsCall = feedLoader.newLoadEntries(getApplicationContext());
+        itemsCall.enqueue(new retrofit2.Callback<ResponseBody>() {
 
-            try {
+            @Override
+            public void onResponse(retrofit2.Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                mFeed.setPosts(FeedLoader.getInstance().parseEntries(response.body().string()));
-                loadData();
+                try {
 
-            } catch (IOException e) {
+                    mFeed.setPosts(FeedLoaderManager.getInstance(getApplicationContext()).parseEntries(response.body().string()));
+                    loadData();
+                } catch (IOException e) {
 
-                Log.v(TAG, "Unable to get body as string :(");
-                mSwipeRefreshLayout.setRefreshing(false);
+                    Log.v(TAG, "Error while getting response.");
+                    manageFailure(e);
+                }
             }
 
-        } else {
+            @Override
+            public void onFailure(retrofit2.Call<ResponseBody> call, Throwable t) {
 
-            Log.v(TAG, "Response not successful!");
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
+                Log.v(TAG, "On failure");
+                manageFailure();
+            }
+        });
     }
 
 
@@ -244,8 +202,17 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
      */
     private void manageFailure(IOException e) {
 
-        Log.v(TAG, "OnFailure");
         e.printStackTrace();
+        manageFailure();
+    }
+
+
+    /**
+     * Manages failure on petitions.
+     */
+    private void manageFailure() {
+
+        Log.v(TAG, "OnFailure");
         showError();
         mSwipeRefreshLayout.setRefreshing(false);
     }
@@ -381,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                     public void onClick(View view) {
 
                         mSwipeRefreshLayout.setRefreshing(true);
-                        registerLoader();
+                        retrieveFeed();
                     }
                 });
         snackbar.show();
