@@ -50,6 +50,10 @@
                 android:layout_marginTop="@dimen/generalMarginTop"
                 tools:text="@string/Lorem_Ipsum"/>
 
+            <laz.llunaplenafnsb.views.AuthorView
+                android:id="@+id/authorView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

@@ -31,6 +31,9 @@ public class EntryDetailFragment extends Fragment {
     @Bind(R.id.description_tv)
     TextView mDescription;
 
+    @Bind(R.id.authorView)
+    AuthorView mAuthorView;
+
     public static EntryDetailFragment newInstance(EntryItem item) {
 
         EntryDetailFragment fmt = new EntryDetailFragment();
@@ -58,6 +61,7 @@ public class EntryDetailFragment extends Fragment {
 
         mTitle.setText(mEntry.getTitle());
         mDescription.setText(mEntry.getContentAsFormattedText());
+        mAuthorView.populateView(mEntry.getAuthor());
 
         String url = mEntry.getImgFromContent();
         if (url != null && url.trim().length() > 0) {
