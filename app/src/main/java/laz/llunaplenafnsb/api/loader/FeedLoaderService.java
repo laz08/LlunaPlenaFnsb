@@ -12,4 +12,7 @@ public interface FeedLoaderService {
 
     @GET("blogger/v3/blogs/3262650353206841577/posts")
     Call<ResponseBody> getPosts(@Query("key") String apiKey);
+
+    @GET("blogger/v3/blogs/3262650353206841577/posts/search")
+    Call<ResponseBody> search(@Query("key") String apiKey, @Query("q") String query);
 }

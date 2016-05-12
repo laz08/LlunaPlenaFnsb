@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
         FeedLoaderManager manager = FeedLoaderManager.getInstance(this);
         final Context ctx = getApplicationContext();
-        retrofit2.Call<ResponseBody> responseBodyCall = manager.newLoadFeed(ctx);
+        retrofit2.Call<ResponseBody> responseBodyCall = manager.loadFeed(ctx);
         responseBodyCall.enqueue(new retrofit2.Callback<ResponseBody>() {
 
             @Override
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
         FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(this);
         mFeed = feedLoader.parseFeed(response.body().string());
-        retrofit2.Call<ResponseBody> itemsCall = feedLoader.newLoadEntries(getApplicationContext());
+        retrofit2.Call<ResponseBody> itemsCall = feedLoader.loadEntries(getApplicationContext());
         itemsCall.enqueue(new retrofit2.Callback<ResponseBody>() {
 
             @Override
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
                 try {
 
-                    mFeed.setPosts(FeedLoaderManager.getInstance(getApplicationContext()).parseEntries(response.body().string()));
+                    mFeed.setPosts(FeedLoaderManager.getInstance(getApplicationContext()).parsePosts(response.body().string()));
                     loadData();
                 } catch (IOException e) {
 
@@ -245,6 +245,11 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                 mDrawerLayout.closeDrawers();
                 return true;
 
+            case R.id.drawer_search:
+                startSearchActivity();
+                mDrawerLayout.closeDrawers();
+                return true;
+
             case R.id.drawer_about:
                 //TODO: Start about screen
 
@@ -256,6 +261,15 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                 mDrawerLayout.closeDrawers();
         }
         return false;
+    }
+
+    /**
+     * Starts search activity.
+     */
+    private void startSearchActivity() {
+
+        Intent searchAct = new Intent(this, SearchActivity.class);
+        startActivity(searchAct);
     }
 
     /**

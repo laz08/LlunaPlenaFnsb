@@ -1,7 +1,6 @@
 package laz.llunaplenafnsb.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.views.EntryItemView;

@@ -16,6 +16,7 @@ import laz.llunaplenafnsb.api.parsers.FeedParser;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 
 /**
@@ -57,15 +58,40 @@ public class FeedLoaderManager {
     }
 
 
-    public retrofit2.Call<ResponseBody> newLoadFeed(Context ctx) {
+    /**
+     * Loads feed.
+     *
+     * @param ctx Context.
+     * @return Feed call
+     */
+    public Call<ResponseBody> loadFeed(Context ctx) {
 
         return mFeedService.getFeed(ctx.getResources().getString(R.string.apiKey_blogger));
     }
 
-    public retrofit2.Call<ResponseBody> newLoadEntries(Context ctx) {
+    /**
+     * Requests to load entries.
+     *
+     * @param ctx Context.
+     * @return Entries call.
+     */
+    public Call<ResponseBody> loadEntries(Context ctx) {
 
         return mFeedService.getPosts(ctx.getResources().getString(R.string.apiKey_blogger));
     }
+
+
+    /**
+     * Requests to load the query.
+     *
+     * @param ctx Context.
+     * @return Entries matching the query call.
+     */
+    public Call<ResponseBody> loadQuery(Context ctx, String query) {
+
+        return mFeedService.search(ctx.getResources().getString(R.string.apiKey_blogger), query);
+    }
+
 
 
     /**
@@ -92,9 +118,9 @@ public class FeedLoaderManager {
      * Parses entries.
      *
      * @param entriesJSON Entries json.
-     * @return
+     * @return Parsed posts.
      */
-    public List<EntryItem> parseEntries(String entriesJSON) {
+    public List<EntryItem> parsePosts(String entriesJSON) {
 
         try {
 
