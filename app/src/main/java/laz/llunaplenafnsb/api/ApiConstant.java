@@ -16,7 +16,7 @@ public class ApiConstant {
     public static final String FEED = "feed";
     public static final String HEIGHT = "height";
     public static final String HREF = "href";
-    public static final String IMAGE = "gd$image";
+    public static final String IMAGE = "image";
     public static final String LINK = "link";
     public static final String NAME = "name";
     public static final String DISPLAY_NAME = "displayName";

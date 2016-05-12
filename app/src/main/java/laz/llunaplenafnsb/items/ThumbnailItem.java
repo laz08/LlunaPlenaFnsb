@@ -8,8 +8,7 @@ import android.os.Parcelable;
  */
 public class ThumbnailItem implements Parcelable {
 
-    private int mWidth;
-    private int mHeight;
+
     private String mUrl;
 
     /**
@@ -17,22 +16,6 @@ public class ThumbnailItem implements Parcelable {
      */
     public ThumbnailItem() {
 
-    }
-
-    public int getWidth() {
-        return mWidth;
-    }
-
-    public void setWidth(int width) {
-        mWidth = width;
-    }
-
-    public int getHeight() {
-        return mHeight;
-    }
-
-    public void setHeight(int height) {
-        mHeight = height;
     }
 
     public String getUrl() {
@@ -52,8 +35,6 @@ public class ThumbnailItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
-        dest.writeInt(mWidth);
-        dest.writeInt(mHeight);
         dest.writeString(mUrl);
     }
 
@@ -63,9 +44,7 @@ public class ThumbnailItem implements Parcelable {
      * @param in Parcel input.
      */
     protected ThumbnailItem(Parcel in) {
-
-        mWidth = in.readInt();
-        mHeight = in.readInt();
+        
         mUrl = in.readString();
     }
 

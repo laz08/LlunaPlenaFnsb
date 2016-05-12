@@ -1,6 +1,5 @@
 package laz.llunaplenafnsb.api.parsers;
 
-import android.text.Html;
 import android.util.Log;
 
 import org.json.JSONArray;

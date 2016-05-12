@@ -25,8 +25,6 @@ public class ThumbnailParser {
         ThumbnailItem image = new ThumbnailItem();
         try {
 
-            image.setWidth(Integer.valueOf(jsonObject.optString(ApiConstant.WIDTH)));
-            image.setHeight(Integer.valueOf(jsonObject.optString(ApiConstant.HEIGHT)));
             if (jsonObject.has(ApiConstant.SRC)) {
 
                 image.setUrl(jsonObject.getString(ApiConstant.SRC));
