@@ -18,16 +18,16 @@
 
             <RelativeLayout
                 android:id="@+id/header"
-                android:background="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/min_height_toolbar"
+                android:background="@color/black"
                 android:foreground="@drawable/header_gradient">
 
                 <ImageView
-                    android:scaleType="centerInside"
                     android:id="@+id/toolbar_image"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"/>
 
             </RelativeLayout>
 
@@ -50,10 +50,23 @@
                 android:layout_marginTop="@dimen/generalMarginTop"
                 tools:text="@string/Lorem_Ipsum"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_half_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_half_margin"
+                android:layout_marginTop="@dimen/generalMarginTop"
+                android:background="@color/gray"/>
+
             <laz.llunaplenafnsb.views.AuthorView
                 android:id="@+id/authorView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/generalMarginTop"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/generalMarginTop"/>
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

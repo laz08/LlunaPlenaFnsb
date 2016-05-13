@@ -28,6 +28,10 @@
             android:theme="@style/AppThemeWithToolbar"/>
 
         <activity
+            android:name=".activities.WebPageActivity"
+            android:theme="@style/AppThemeWithToolbar"/>
+
+        <activity
             android:name=".activities.SearchActivity"
             android:theme="@style/AppThemeWithToolbar">
 

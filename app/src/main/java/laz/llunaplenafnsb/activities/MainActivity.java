@@ -284,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         startActivity(browserIntent);
     }
 
+
     /**
      * Starts settings activity.
      */
