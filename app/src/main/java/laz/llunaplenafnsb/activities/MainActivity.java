@@ -24,6 +24,7 @@ import laz.llunaplenafnsb.fragment.HomeFeedFragment;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    public static final String CURRENT_FRAGMENT = "CURRENT_FRAGMENT";
 
     @Bind(R.id.drawer)
     DrawerLayout mDrawerLayout;
@@ -31,22 +32,26 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.navigation_view)
     NavigationView mNavigationView;
 
+    private Fragment mCurrentFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        initialize();
+        initialize(savedInstanceState);
     }
 
     /**
      * Initializes the activity.
+     *
+     * @param savedInstanceState Saved instance state.
      */
-    private void initialize() {
+    private void initialize(Bundle savedInstanceState) {
 
-        ButterKnife.bind(this);
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -57,12 +62,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction fmtTransaction = manager.beginTransaction();
+        if (savedInstanceState != null) {
 
-        HomeFeedFragment homeFmt = new HomeFeedFragment();
-        fmtTransaction.add(R.id.fgmt_container, homeFmt);
-        fmtTransaction.commit();
+            mCurrentFragment = getSupportFragmentManager().getFragment(savedInstanceState, CURRENT_FRAGMENT);
+        } else {
+
+            changeToHomeFeedFragment();
+        }
     }
 
 
@@ -122,13 +128,15 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
 
-        Fragment fmt = manager.findFragmentById(R.id.fgmt_container);
-        if (!(fmt instanceof AboutFragment)) {
+        Fragment fmtById = manager.findFragmentById(R.id.fgmt_container);
+        if (!(fmtById instanceof AboutFragment)) {
 
             FragmentTransaction fmtTransaction = manager.beginTransaction();
 
-            AboutFragment aboutFmt = new AboutFragment();
-            fmtTransaction.replace(R.id.fgmt_container, aboutFmt);
+            AboutFragment instance = AboutFragment.getInstance();
+            mCurrentFragment = instance;
+            fmtTransaction.replace(R.id.fgmt_container, instance);
+
             fmtTransaction.addToBackStack(null);
             fmtTransaction.commit();
         }
@@ -145,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
             FragmentTransaction fmtTransaction = manager.beginTransaction();
 
-            HomeFeedFragment homeFmt = new HomeFeedFragment();
+            HomeFeedFragment homeFmt = HomeFeedFragment.getInstance();
+            mCurrentFragment = homeFmt;
             fmtTransaction.replace(R.id.fgmt_container, homeFmt);
             fmtTransaction.commit();
         }
@@ -215,5 +224,12 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
         mNavigationView.setCheckedItem(R.id.drawer_home);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, CURRENT_FRAGMENT, mCurrentFragment);
     }
 }

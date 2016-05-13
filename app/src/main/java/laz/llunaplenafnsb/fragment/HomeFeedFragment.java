@@ -60,9 +60,25 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
     @Bind(R.id.coord_lay)
     CoordinatorLayout mCoordLayout;
 
+    private static HomeFeedFragment mHomeFeedFragment;
+
     private HomeEntriesAdapter mAdapter;
     private ArrayList<EntryItem> mEntries;
     private Feed mFeed;
+
+    /**
+     * Returns instance of Home Feed fragment.
+     *
+     * @return Home feed instance.
+     */
+    public static HomeFeedFragment getInstance() {
+
+        if (mHomeFeedFragment == null) {
+
+            mHomeFeedFragment = new HomeFeedFragment();
+        }
+        return mHomeFeedFragment;
+    }
 
     @Nullable
     @Override
@@ -83,11 +99,6 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
         setUpToolbar();
         configureRecyclerView();
 
-        mSwipeRefreshLayout.setRefreshing(true);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
-
-        retrieveFeed();
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -97,6 +108,17 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
             }
         });
 
+        if (mFeed == null) {
+
+            Log.v(TAG, "Saved instance IS null.");
+            mSwipeRefreshLayout.setRefreshing(true);
+            mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+
+            retrieveFeed();
+        } else {
+
+            loadData();
+        }
     }
 
 
@@ -305,4 +327,25 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
 
         startActivity(detailPager);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(FEED_SAVED_INSTANCE, mFeed);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+
+            Log.v(TAG, "Saved instance not null.");
+            mFeed = savedInstanceState.getParcelable(FEED_SAVED_INSTANCE);
+        }
+    }
+
+    private static final String FEED_SAVED_INSTANCE = "feedSavedInstance";
 }

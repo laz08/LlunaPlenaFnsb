@@ -1,12 +1,14 @@
 package laz.llunaplenafnsb.items;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Feed.
  */
-public class Feed {
-
+public class Feed implements Parcelable {
 
     private String mName;
 
@@ -19,10 +21,59 @@ public class Feed {
     private List<EntryItem> mPosts;
     private String mPostsUrl;
 
+    /**
+     * Constructor.
+     */
+    public Feed() {
+
+    }
+
+    /**
+     * Constructor from parcelable.
+     *
+     * @param in Parcel in.
+     */
+    protected Feed(Parcel in) {
+
+        mName = in.readString();
+        mDescription = in.readString();
+        mUrl = in.readString();
+        mUpdated = in.readString();
+        mPosts = in.createTypedArrayList(EntryItem.CREATOR);
+        mPostsUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeString(mName);
+        parcel.writeString(mDescription);
+        parcel.writeString(mUrl);
+        parcel.writeString(mUpdated);
+        parcel.writeTypedList(mPosts);
+        parcel.writeString(mPostsUrl);
+    }
+
+    public static final Creator<Feed> CREATOR = new Creator<Feed>() {
+
+        @Override
+        public Feed createFromParcel(Parcel in) {
+
+            return new Feed(in);
+        }
+
+        @Override
+        public Feed[] newArray(int size) {
+
+            return new Feed[size];
+        }
+    };
+
     public String getPostsUrl() {
         return mPostsUrl;
     }
-    public void setPostsUrl(String url){
+
+    public void setPostsUrl(String url) {
 
         mPostsUrl = url;
     }
@@ -65,6 +116,13 @@ public class Feed {
 
     public void setPosts(List<EntryItem> posts) {
         mPosts = posts;
+    }
+
+
+    @Override
+    public int describeContents() {
+
+        return 0;
     }
 
 }

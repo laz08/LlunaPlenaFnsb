@@ -15,6 +15,24 @@ import laz.llunaplenafnsb.R;
  */
 public class AboutFragment extends Fragment {
 
+    private static AboutFragment mAboutFragment;
+
+    public static final String TAG = "AboutFragment";
+
+    /**
+     * Returns single instance of about fragment.
+     *
+     * @return About fragment instance.
+     */
+    public static AboutFragment getInstance() {
+
+        if (mAboutFragment == null) {
+
+            mAboutFragment = new AboutFragment();
+        }
+        return mAboutFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
