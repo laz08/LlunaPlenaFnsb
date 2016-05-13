@@ -99,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
                 startSettingsActivity();
                 mDrawerLayout.closeDrawers();
-                return true;
+                return false;
 
             case R.id.drawer_search:
                 startSearchActivity();
                 mDrawerLayout.closeDrawers();
-                return true;
+                return false;
 
             case R.id.drawer_about:
                 changeToAboutFragment();
@@ -218,13 +218,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        mNavigationView.setCheckedItem(R.id.drawer_home);
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

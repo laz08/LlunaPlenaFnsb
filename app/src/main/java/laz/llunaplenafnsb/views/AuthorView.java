@@ -31,6 +31,7 @@ public class AuthorView extends RelativeLayout {
 
     @Bind(R.id.author_name)
     TextView mAuthorName;
+
     private View mLayout;
 
     /**

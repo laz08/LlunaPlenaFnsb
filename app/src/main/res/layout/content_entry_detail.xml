@@ -61,11 +61,7 @@
             <laz.llunaplenafnsb.views.AuthorView
                 android:id="@+id/authorView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/generalMarginTop"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/generalMarginTop"/>
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
