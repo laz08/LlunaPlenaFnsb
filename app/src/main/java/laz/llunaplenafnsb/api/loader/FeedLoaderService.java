@@ -14,7 +14,7 @@ public interface FeedLoaderService {
     Call<ResponseBody> getPosts(@Query("key") String apiKey);
 
     @GET("blogger/v3/blogs/3262650353206841577/posts")
-    Call<ResponseBody> getNextPosts(@Query("key") String apiKey, @Query("nextPageToken") String token);
+    Call<ResponseBody> getNextPosts(@Query("key") String apiKey, @Query("pageToken") String token);
 
     @GET("blogger/v3/blogs/3262650353206841577/posts/search")
     Call<ResponseBody> search(@Query("key") String apiKey, @Query("q") String query);
