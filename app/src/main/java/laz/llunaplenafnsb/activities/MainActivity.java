@@ -151,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
         Fragment fmt = manager.findFragmentById(R.id.fgmt_container);
         if (!(fmt instanceof HomeFeedFragment)) {
 
+            HomeFeedFragment homeFmt = HomeFeedFragment.getInstance();
+            mCurrentFragment = homeFmt;
 
             if (manager.getBackStackEntryCount() != 0) {
 
@@ -160,10 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
                 FragmentTransaction fmtTransaction = manager.beginTransaction();
 
-                HomeFeedFragment homeFmt = HomeFeedFragment.getInstance();
-                mCurrentFragment = homeFmt;
                 fmtTransaction.add(R.id.fgmt_container, homeFmt);
-
                 fmtTransaction.commit();
             }
         }
@@ -242,6 +241,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, CURRENT_FRAGMENT, mCurrentFragment);
+
+        FragmentManager manager = getSupportFragmentManager();
+        if(mCurrentFragment.isAdded()){
+
+            manager.putFragment(outState, CURRENT_FRAGMENT, mCurrentFragment);
+        }
     }
 }

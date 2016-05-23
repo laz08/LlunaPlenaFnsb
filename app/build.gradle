@@ -33,4 +33,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'org.jsoup:jsoup:1.9.1'
+    compile 'info.hoang8f:fbutton:1.0.5'
 }

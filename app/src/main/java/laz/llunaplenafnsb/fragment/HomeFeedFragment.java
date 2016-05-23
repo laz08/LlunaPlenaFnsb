@@ -98,7 +98,6 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
         setUpToolbar();
         configureRecyclerView();
-        setUpDrawer();
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -117,15 +116,9 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
             retrieveFeed();
         } else {
 
+            Log.v(TAG, "Saved instance NOT null.");
             loadData();
         }
-    }
-
-    /**
-     * Sets up navigation menu drawer.
-     */
-    private void setUpDrawer() {
-
     }
 
 

@@ -89,7 +89,7 @@ public class EntryItemView extends FrameLayout {
 
         mSummary.setText(content);
         if (imgUrl != null && imgUrl.trim().length() > 0) {
-            Log.v(TAG, "First img url: " + imgUrl);
+//            Log.v(TAG, "First img url: " + imgUrl);
 
             mImageView.setVisibility(VISIBLE);
             ImageLoaderHelper.loadImageInto(mImageView.getContext(), mImageView, imgUrl);

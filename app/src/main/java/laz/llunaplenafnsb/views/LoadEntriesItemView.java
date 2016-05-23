@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import info.hoang8f.widget.FButton;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
 
@@ -23,7 +24,7 @@ public class LoadEntriesItemView extends FrameLayout {
     public static final String TAG = "LoadEntriesItemView";
 
     @Bind(R.id.button_entries)
-    FrameLayout mButton;
+    FButton mButton;
 
     /**
      * Constructor.
@@ -84,7 +85,7 @@ public class LoadEntriesItemView extends FrameLayout {
     public void setVisible(boolean show) {
 
         Log.v(TAG, "Setting button as visible/gone");
-        if(show){
+        if (show) {
 
             mButton.setVisibility(VISIBLE);
         } else {
