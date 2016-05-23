@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import butterknife.Bind;
@@ -136,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
             AboutFragment instance = AboutFragment.getInstance();
             mCurrentFragment = instance;
             fmtTransaction.replace(R.id.fgmt_container, instance);
-
             fmtTransaction.addToBackStack(null);
             fmtTransaction.commit();
         }
@@ -151,12 +151,21 @@ public class MainActivity extends AppCompatActivity {
         Fragment fmt = manager.findFragmentById(R.id.fgmt_container);
         if (!(fmt instanceof HomeFeedFragment)) {
 
-            FragmentTransaction fmtTransaction = manager.beginTransaction();
 
-            HomeFeedFragment homeFmt = HomeFeedFragment.getInstance();
-            mCurrentFragment = homeFmt;
-            fmtTransaction.replace(R.id.fgmt_container, homeFmt);
-            fmtTransaction.commit();
+            if (manager.getBackStackEntryCount() != 0) {
+
+                Log.v(TAG, "Popping");
+                manager.popBackStack();
+            } else {
+
+                FragmentTransaction fmtTransaction = manager.beginTransaction();
+
+                HomeFeedFragment homeFmt = HomeFeedFragment.getInstance();
+                mCurrentFragment = homeFmt;
+                fmtTransaction.add(R.id.fgmt_container, homeFmt);
+
+                fmtTransaction.commit();
+            }
         }
     }
 
@@ -215,6 +224,16 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             super.onBackPressed();
+            FragmentManager manager = getSupportFragmentManager();
+            Fragment fmt = manager.findFragmentById(R.id.fgmt_container);
+            for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
+
+                mNavigationView.getMenu().getItem(0).setChecked(false);
+            }
+
+            if (fmt instanceof HomeFeedFragment) {
+                mNavigationView.getMenu().getItem(0).setChecked(true);
+            }
         }
     }
 
