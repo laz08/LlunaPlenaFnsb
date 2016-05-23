@@ -3,6 +3,7 @@ package laz.llunaplenafnsb.items;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,6 @@ public class Feed implements Parcelable {
     private String mUrl;
 
     private String mUpdated;
-
 
     private List<EntryItem> mPosts;
     private String mPostsUrl;
@@ -135,4 +135,20 @@ public class Feed implements Parcelable {
     public void setNextPageToken(String nextPageToken) {
         mNextPageToken = nextPageToken;
     }
+
+    /**
+     * Adds new posts.
+     *
+     * @param entryItems Entry items.
+     */
+    public void addPosts(List<EntryItem> entryItems) {
+
+        if (mPosts == null) {
+
+            mPosts = new ArrayList<>();
+        }
+
+        mPosts.addAll(entryItems);
+    }
+
 }

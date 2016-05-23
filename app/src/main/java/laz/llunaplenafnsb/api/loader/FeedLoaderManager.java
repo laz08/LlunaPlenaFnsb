@@ -27,7 +27,9 @@ public class FeedLoaderManager {
     public static final String TAG = "FeedLoaderManager";
 
     private static FeedLoaderManager mManager;
+
     private FeedLoaderService mFeedService;
+    private SectionsLoaderService mSectionsService;
 
     /**
      * Constructor.
@@ -40,6 +42,7 @@ public class FeedLoaderManager {
                 .build();
 
         mFeedService = retrofit.create(FeedLoaderService.class);
+        mSectionsService = retrofit.create(SectionsLoaderService.class);
     }
 
     /**
@@ -53,7 +56,6 @@ public class FeedLoaderManager {
 
             mManager = new FeedLoaderManager(ctx);
         }
-
         return mManager;
     }
 
@@ -92,6 +94,19 @@ public class FeedLoaderManager {
         return mFeedService.search(ctx.getResources().getString(R.string.apiKey_blogger), query);
     }
 
+
+    /**
+     * Requests to load 10 more entries.
+     *
+     * @param token Next page token.
+     * @param ctx   Context.
+     * @return More entries call.
+     */
+    public Call<ResponseBody> loadMoreEntries(String token, Context ctx) {
+
+        return mFeedService.getNextPosts(ctx.getResources().getString(R.string.apiKey_blogger),
+                token);
+    }
 
     /**
      * Parses feed string.
@@ -136,8 +151,13 @@ public class FeedLoaderManager {
         return null;
     }
 
-    public String parseNextPageToken(String jsonAsString){
-
+    /**
+     * Parses next page token.
+     *
+     * @param jsonAsString Json as string.
+     * @return Next page token parsed.
+     */
+    public String parseNextPageToken(String jsonAsString) {
 
         try {
 

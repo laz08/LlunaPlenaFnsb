@@ -276,6 +276,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
             Log.v(TAG, "Title: " + mFeed.getName());
             Log.v(TAG, "Description: " + mFeed.getDescription());
             Log.v(TAG, "Posts size: " + mFeed.getPosts().size());
+            Log.v(TAG, "Next page: " + mFeed.getNextPageToken());
 
             mEntries = new ArrayList<>(mFeed.getPosts());
             mAdapter.setEntries(mEntries);
@@ -319,7 +320,38 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
         //TODO: Load new entries
         Log.v(TAG, "loadNewEntriesClick!");
+        if (mFeed != null && mFeed.getNextPageToken() != null) {
 
+            String nextPageToken = mFeed.getNextPageToken();
+            final FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(getContext());
+            Call<ResponseBody> call = feedLoader.loadMoreEntries(nextPageToken, getContext());
+            call.enqueue(new Callback<ResponseBody>() {
+
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                    try {
+                        if (response != null && response.body() != null) {
+
+                            String body = response.body().string();
+                            mFeed.setNextPageToken(feedLoader.parseNextPageToken(body));
+                            Log.v(TAG, "Next page token: " + mFeed.getNextPageToken());
+                            mFeed.addPosts(feedLoader.parsePosts(body));
+                            loadData();
+                        }
+                    } catch (IOException e) {
+
+                        Log.v(TAG, "Error while getting response.");
+                        manageFailure(e);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
 

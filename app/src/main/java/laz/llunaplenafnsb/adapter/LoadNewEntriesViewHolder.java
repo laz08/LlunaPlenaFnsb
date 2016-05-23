@@ -1,7 +1,5 @@
 package laz.llunaplenafnsb.adapter;
 
-import android.view.View;
-
 import laz.llunaplenafnsb.views.LoadEntriesItemView;
 
 /**
