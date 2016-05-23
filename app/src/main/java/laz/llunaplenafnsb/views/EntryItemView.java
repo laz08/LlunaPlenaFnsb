@@ -15,7 +15,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
-import laz.llunaplenafnsb.adapter.OnEntryClickListener;
+import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
 import laz.llunaplenafnsb.helper.ImageLoaderHelper;
 import laz.llunaplenafnsb.items.EntryItem;
 
@@ -100,7 +100,7 @@ public class EntryItemView extends FrameLayout {
 
     }
 
-    public void setListener(final OnEntryClickListener listener) {
+    public void setListener(final OnFeedItemClickListener listener) {
 
         mCardView.setOnClickListener(new OnClickListener() {
             @Override

@@ -18,5 +18,7 @@ public class ApiConstant {
     public static final String TITLE = "title";
     public static final String URL = "url";
     public static final String ITEMS = "items";
+    public static final String NEXT_PAGE_TOKEN = "nextPageToken";
+
     public static final String CONTENT = "content";
 }

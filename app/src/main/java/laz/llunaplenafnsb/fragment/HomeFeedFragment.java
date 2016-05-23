@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.activities.EntryDetailActivity;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
-import laz.llunaplenafnsb.adapter.OnEntryClickListener;
+import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
 import laz.llunaplenafnsb.api.loader.FeedLoaderManager;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
@@ -41,7 +41,7 @@ import retrofit2.Response;
 /**
  * Home feed fragment.
  */
-public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
+public class HomeFeedFragment extends Fragment implements OnFeedItemClickListener {
 
     public static final String TAG = "HomeFeedFragment";
 
@@ -187,8 +187,9 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
             public void onResponse(retrofit2.Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 try {
-
-                    mFeed.setPosts(feedLoader.parsePosts(response.body().string()));
+                    String body = response.body().string();
+                    mFeed.setNextPageToken(feedLoader.parseNextPageToken(body));
+                    mFeed.setPosts(feedLoader.parsePosts(body));
                     loadData();
                 } catch (IOException e) {
 
@@ -258,7 +259,7 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new HomeEntriesAdapter(this);
+        mAdapter = new HomeEntriesAdapter(this, true);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -311,6 +312,14 @@ public class HomeFeedFragment extends Fragment implements OnEntryClickListener {
 
         Log.v(TAG, "OnEntryClick!");
         openEntryDetailActivity(entry);
+    }
+
+    @Override
+    public void loadNewEntriesClick() {
+
+        //TODO: Load new entries
+        Log.v(TAG, "loadNewEntriesClick!");
+
     }
 
 

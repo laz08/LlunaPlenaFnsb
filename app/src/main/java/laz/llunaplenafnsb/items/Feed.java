@@ -20,6 +20,7 @@ public class Feed implements Parcelable {
 
     private List<EntryItem> mPosts;
     private String mPostsUrl;
+    private String mNextPageToken;
 
     /**
      * Constructor.
@@ -41,6 +42,7 @@ public class Feed implements Parcelable {
         mUpdated = in.readString();
         mPosts = in.createTypedArrayList(EntryItem.CREATOR);
         mPostsUrl = in.readString();
+        mNextPageToken = in.readString();
     }
 
     @Override
@@ -52,6 +54,7 @@ public class Feed implements Parcelable {
         parcel.writeString(mUpdated);
         parcel.writeTypedList(mPosts);
         parcel.writeString(mPostsUrl);
+        parcel.writeString(mNextPageToken);
     }
 
     public static final Creator<Feed> CREATOR = new Creator<Feed>() {
@@ -125,4 +128,11 @@ public class Feed implements Parcelable {
         return 0;
     }
 
+    public String getNextPageToken() {
+        return mNextPageToken;
+    }
+
+    public void setNextPageToken(String nextPageToken) {
+        mNextPageToken = nextPageToken;
+    }
 }

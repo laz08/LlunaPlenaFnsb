@@ -135,4 +135,19 @@ public class FeedLoaderManager {
         }
         return null;
     }
+
+    public String parseNextPageToken(String jsonAsString){
+
+
+        try {
+
+            JSONObject json = new JSONObject(jsonAsString);
+            return json.optString(ApiConstant.NEXT_PAGE_TOKEN);
+
+        } catch (JSONException e) {
+
+            Log.v(TAG, "Error while parsing.");
+        }
+        return null;
+    }
 }

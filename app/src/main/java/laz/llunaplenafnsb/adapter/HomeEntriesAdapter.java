@@ -8,24 +8,30 @@ import java.util.List;
 
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.views.EntryItemView;
+import laz.llunaplenafnsb.views.LoadEntriesItemView;
 
 /**
  * Home entries adapter.
  */
-public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder> {
+public class HomeEntriesAdapter extends RecyclerView.Adapter<BaseFeedItemViewHolder> {
 
-    private OnEntryClickListener mListener;
+    public static final String TAG = "HomeEntriesAdapter";
+
+    private OnFeedItemClickListener mListener;
     private List<EntryItem> mEntries;
+
+    private boolean mAllowLoadingMoreEntries;
 
     /**
      * Constructor.
      *
-     * @param listener OnEntryClickListener.
+     * @param listener OnFeedItemClickListener.
      */
-    public HomeEntriesAdapter(OnEntryClickListener listener) {
+    public HomeEntriesAdapter(OnFeedItemClickListener listener, boolean allowLoadingMoreEntries) {
 
         mListener = listener;
         mEntries = new ArrayList<>();
+        mAllowLoadingMoreEntries = allowLoadingMoreEntries;
     }
 
     /**
@@ -35,28 +41,68 @@ public class HomeEntriesAdapter extends RecyclerView.Adapter<EntryItemViewHolder
      */
     public void setEntries(List<EntryItem> entries) {
 
+        mEntries.clear();
         mEntries.addAll(entries);
     }
 
     @Override
-    public EntryItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseFeedItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new EntryItemViewHolder(new EntryItemView(parent.getContext()));
+        switch (viewType) {
+
+            case BUTTON_TYPE:
+                return new LoadNewEntriesViewHolder(new LoadEntriesItemView(parent.getContext()));
+
+            default:
+            case ENTRY_TYPE:
+                return new EntryItemViewHolder(new EntryItemView(parent.getContext()));
+
+        }
     }
 
     @Override
-    public void onBindViewHolder(EntryItemViewHolder holder, int position) {
+    public void onBindViewHolder(BaseFeedItemViewHolder holder, int position) {
 
-        if (mEntries != null && position < mEntries.size()) {
+        if (holder instanceof EntryItemViewHolder && mEntries != null) {
 
-            EntryItem entryItem = mEntries.get(position);
-            holder.decorate(entryItem, mListener);
+            if (position < mEntries.size()) {
+
+                EntryItem entryItem = mEntries.get(position);
+                ((EntryItemViewHolder) holder).decorate(entryItem, mListener);
+            }
+        } else if (holder instanceof LoadNewEntriesViewHolder) {
+
+            LoadNewEntriesViewHolder newEntriesViewHolder = (LoadNewEntriesViewHolder) holder;
+            newEntriesViewHolder.decorate(mListener,
+                    mAllowLoadingMoreEntries && mEntries != null && mEntries.size() > 0);
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position < (getItemCount() - 1)) {
+
+            return ENTRY_TYPE;
+        }
+        return BUTTON_TYPE;
     }
 
     @Override
     public int getItemCount() {
 
-        return (mEntries != null) ? mEntries.size() : 0;
+        if (mEntries != null) {
+
+            if (mAllowLoadingMoreEntries) {
+
+                return mEntries.size() + 1;
+            }
+            return mEntries.size();
+        }
+        return 0;
     }
+
+    private final int BUTTON_TYPE = 0;
+    private final int ENTRY_TYPE = 42;
+
 }

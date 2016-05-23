@@ -21,7 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
-import laz.llunaplenafnsb.adapter.OnEntryClickListener;
+import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
 import laz.llunaplenafnsb.api.loader.FeedLoaderManager;
 import laz.llunaplenafnsb.items.EntryItem;
 import okhttp3.ResponseBody;
@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchActivity extends AppCompatActivity implements OnEntryClickListener {
+public class SearchActivity extends AppCompatActivity implements OnFeedItemClickListener {
 
     public static final String TAG = "SearchActivity";
 
@@ -111,7 +111,7 @@ public class SearchActivity extends AppCompatActivity implements OnEntryClickLis
         mRecyclerView.setLayoutManager(layoutManager);
 
         mEntries = new ArrayList<>();
-        mAdapter = new HomeEntriesAdapter(this);
+        mAdapter = new HomeEntriesAdapter(this, false);
         mAdapter.setEntries(mEntries);
 
         mRecyclerView.setAdapter(mAdapter);
@@ -173,6 +173,13 @@ public class SearchActivity extends AppCompatActivity implements OnEntryClickLis
 
         Log.v(TAG, "OnEntryClick!");
         openEntryDetailActivity(entry);
+    }
+
+    @Override
+    public void loadNewEntriesClick() {
+
+        Log.v(TAG, "OnEntryClick!");
+
     }
 
     /**

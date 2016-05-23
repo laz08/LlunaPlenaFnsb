@@ -1,14 +1,12 @@
 package laz.llunaplenafnsb.adapter;
 
-import android.support.v7.widget.RecyclerView;
-
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.views.EntryItemView;
 
 /**
  * Entry item holder.
  */
-public class EntryItemViewHolder extends RecyclerView.ViewHolder {
+public class EntryItemViewHolder extends BaseFeedItemViewHolder {
 
     public static final String TAG = "EntryItemViewHolder";
 
@@ -31,7 +29,7 @@ public class EntryItemViewHolder extends RecyclerView.ViewHolder {
      *
      * @param item Entry item.
      */
-    public void decorate(final EntryItem item, final OnEntryClickListener listener) {
+    public void decorate(final EntryItem item, final OnFeedItemClickListener listener) {
 
 //        Log.v(TAG, "Decorating");
         mEntryItemView.setEntry(item);

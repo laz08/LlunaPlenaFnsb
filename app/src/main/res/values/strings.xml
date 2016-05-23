@@ -18,11 +18,12 @@
     <string name="search_hint">Buscar&#8230;</string>
     <string name="check_updates">Comprovar actualitzacions</string>
 
-    <string name="forum_url">http://llunaplenanofansub.forosactivos.net</string>
+    <string name="forum_url">https://llunaplenanofansub.forosactivos.net</string>
 
     <string name="error_feed_null">Error de connexió!</string>
     <string name="retry">Reintentar</string>
 
+    <string name="load_more">Carregar més entrades</string>
     <string name="profile_of">Perfil de: </string>
     <string name="published_by">Publicat per:</string>
 
