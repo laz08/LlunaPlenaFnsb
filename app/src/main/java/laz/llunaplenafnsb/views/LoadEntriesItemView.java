@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
+import laz.llunaplenafnsb.adapter.OnFeedLoadedListener;
 
 /**
  * Load entries item view.
@@ -73,7 +74,17 @@ public class LoadEntriesItemView extends FrameLayout {
             public void onClick(View view) {
 
                 Log.v(TAG, "OnClick");
-                listener.loadNewEntriesClick();
+                mButton.setEnabled(false);
+                mButton.setText(getResources().getString(R.string.loading));
+                listener.loadNewEntriesClick(new OnFeedLoadedListener() {
+
+                    @Override
+                    public void hasFinishedLoading() {
+
+                        mButton.setEnabled(true);
+                        mButton.setText(getResources().getString(R.string.load_more));
+                    }
+                });
             }
         });
 

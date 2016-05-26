@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initialize(Bundle savedInstanceState) {
 
-
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override

@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
 import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
+import laz.llunaplenafnsb.adapter.OnFeedLoadedListener;
 import laz.llunaplenafnsb.api.loader.FeedLoaderManager;
 import laz.llunaplenafnsb.items.EntryItem;
 import okhttp3.ResponseBody;
@@ -227,9 +228,10 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
     }
 
     @Override
-    public void loadNewEntriesClick() {
+    public void loadNewEntriesClick(OnFeedLoadedListener listener) {
 
         Log.v(TAG, "OnEntryClick!");
+        //TODO Search for more entries
 
     }
 

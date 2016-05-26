@@ -30,6 +30,7 @@ import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.activities.EntryDetailActivity;
 import laz.llunaplenafnsb.adapter.HomeEntriesAdapter;
 import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
+import laz.llunaplenafnsb.adapter.OnFeedLoadedListener;
 import laz.llunaplenafnsb.api.loader.FeedLoaderManager;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
@@ -320,13 +321,13 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
     }
 
     @Override
-    public void loadNewEntriesClick() {
+    public void loadNewEntriesClick(final OnFeedLoadedListener onFeedLoadedListener) {
 
         Log.v(TAG, "loadNewEntriesClick!");
         if (mFeed != null && mFeed.getNextPageToken() != null) {
 
-
             mProgressBar.setVisibility(View.VISIBLE);
+
             String nextPageToken = mFeed.getNextPageToken();
             final FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(getContext());
             Call<ResponseBody> call = feedLoader.loadMoreEntries(nextPageToken, getContext());
@@ -335,6 +336,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                    onFeedLoadedListener.hasFinishedLoading();
                     try {
                         if (response != null && response.body() != null) {
 
@@ -356,6 +358,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
 
+                    onFeedLoadedListener.hasFinishedLoading();
                 }
             });
         }

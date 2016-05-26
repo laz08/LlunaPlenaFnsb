@@ -6,5 +6,5 @@ public interface OnFeedItemClickListener {
 
     void onEntryClick(EntryItem entry);
 
-    void loadNewEntriesClick();
+    void loadNewEntriesClick(OnFeedLoadedListener listener);
 }
