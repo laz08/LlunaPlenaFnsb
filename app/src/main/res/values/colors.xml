@@ -4,7 +4,7 @@
     <color name="colorPrimaryLight">#fff3e0</color>
     <color name="colorPrimaryDark">#ff6f00</color>
     <color name="colorPrimaryUltraDark">#dc6000</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#ff4400</color>
 
     <color name="entry_card_background">#cfd8dc</color>
     <color name="entryTitleTextColor">#212121</color>

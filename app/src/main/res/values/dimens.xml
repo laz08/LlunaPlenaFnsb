@@ -26,4 +26,6 @@
     <dimen name="author_half_margin">15dp</dimen>
     <dimen name="author_thumb_dimen">50dp</dimen>
 
+    <dimen name="spinner_progress_toolbar_dimen">34dp</dimen>
+
 </resources>

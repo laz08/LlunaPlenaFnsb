@@ -1,8 +1,12 @@
 package laz.llunaplenafnsb.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,12 +39,21 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
 
     public static final String TAG = "SearchActivity";
 
+    @Bind(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
+
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
+
+    @Bind(R.id.no_entries_view)
+    RelativeLayout mNoEntriesView;
+
+    private ProgressDialog mProgressDialog;
 
     private HomeEntriesAdapter mAdapter;
     private ArrayList<EntryItem> mEntries;
     private FeedLoaderManager mLoaderManager;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +78,9 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
     /**
      * Makes query.
      */
-    private void makeQuery(String query) {
+    private void makeQuery(final String query) {
+
+        mProgressDialog = ProgressDialog.show(this, getResources().getString(R.string.loading), getResources().getString(R.string.wait), true, false);
 
         Call<ResponseBody> call = mLoaderManager.loadQuery(this, query);
         call.enqueue(new Callback<ResponseBody>() {
@@ -71,11 +88,15 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                mProgressDialog.dismiss();
+                mSearchView.clearFocus();
                 try {
 
                     List<EntryItem> posts = mLoaderManager.parsePosts(response.body().string());
                     if (posts != null) {
 
+                        mNoEntriesView.setVisibility(View.GONE);
+                        mRecyclerView.setVisibility(View.VISIBLE);
                         Log.v(TAG, "Posts size: " + posts.size());
                         mEntries.clear();
                         mEntries.addAll(posts);
@@ -84,10 +105,15 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
 
                     } else {
 
+                        showError(getResources().getString(R.string.no_results), query);
+                        mNoEntriesView.setVisibility(View.VISIBLE);
                         Log.v(TAG, "Posts null. Query did not return any result.");
                     }
                 } catch (IOException e) {
 
+                    mNoEntriesView.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                    showError(getResources().getString(R.string.error), query);
                     Log.v(TAG, "Exception");
                 }
             }
@@ -95,7 +121,12 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
+                mNoEntriesView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.GONE);
+                mProgressDialog.dismiss();
+                mSearchView.clearFocus();
                 Log.v(TAG, "onFailure");
+                showError(getResources().getString(R.string.error_connection), query);
             }
         });
     }
@@ -129,12 +160,12 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
 
         if (searchItem != null) {
 
-            SearchView searchView = (SearchView) searchItem.getActionView();
-            if (searchView != null) {
+            mSearchView = (SearchView) searchItem.getActionView();
+            if (mSearchView != null) {
 
-                searchView.setIconified(false);
-                searchView.requestFocus();
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                mSearchView.setIconified(false);
+                mSearchView.requestFocus();
+                mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -166,6 +197,26 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    /**
+     * Shows snackbar message.
+     */
+    private void showError(String message, final String query) {
+
+        Resources res = getResources();
+        Snackbar snackbar = Snackbar
+                .make(mCoordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(res.getString(R.string.retry), new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        makeQuery(query);
+                    }
+                });
+        snackbar.show();
     }
 
     @Override

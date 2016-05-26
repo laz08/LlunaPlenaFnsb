@@ -299,7 +299,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
         Resources res = getResources();
         Snackbar snackbar = Snackbar
-                .make(mCoordLayout, res.getString(R.string.error_feed_null), Snackbar.LENGTH_INDEFINITE)
+                .make(mCoordLayout, res.getString(R.string.error_connection), Snackbar.LENGTH_INDEFINITE)
                 .setAction(res.getString(R.string.retry), new View.OnClickListener() {
 
                     @Override

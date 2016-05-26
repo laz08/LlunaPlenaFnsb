@@ -21,7 +21,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/card_inner_margin">
 
             <TextView
@@ -47,9 +47,11 @@
                 android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
                 android:id="@+id/entry_image"
+                android:scaleType="centerInside"
                 android:layout_width="@dimen/entry_image_width"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:paddingLeft="@dimen/card_half_margin"/>
 
         </RelativeLayout>
