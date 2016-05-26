@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.fragment.AboutFragment;
+import laz.llunaplenafnsb.fragment.DeveloperFragment;
 import laz.llunaplenafnsb.fragment.HomeFeedFragment;
 
 /**
@@ -113,7 +114,9 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.drawer_dev:
                 //TODO: Start about developer screen
-
+                changeToDeveloperFragment();
+                mDrawerLayout.closeDrawers();
+                return true;
 
             default:
                 mDrawerLayout.closeDrawers();
@@ -134,6 +137,27 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction fmtTransaction = manager.beginTransaction();
 
             AboutFragment instance = AboutFragment.getInstance();
+            mCurrentFragment = instance;
+            fmtTransaction.replace(R.id.fgmt_container, instance);
+            fmtTransaction.addToBackStack(null);
+            fmtTransaction.commit();
+        }
+    }
+
+
+    /**
+     * Replaces current fragment to about.
+     */
+    private void changeToDeveloperFragment() {
+
+        FragmentManager manager = getSupportFragmentManager();
+
+        Fragment fmtById = manager.findFragmentById(R.id.fgmt_container);
+        if (!(fmtById instanceof DeveloperFragment)) {
+
+            FragmentTransaction fmtTransaction = manager.beginTransaction();
+
+            DeveloperFragment instance = DeveloperFragment.getInstance();
             mCurrentFragment = instance;
             fmtTransaction.replace(R.id.fgmt_container, instance);
             fmtTransaction.addToBackStack(null);

@@ -21,7 +21,6 @@ import laz.llunaplenafnsb.adapter.OnFeedLoadedListener;
  */
 public class LoadEntriesItemView extends FrameLayout {
 
-
     public static final String TAG = "LoadEntriesItemView";
 
     @Bind(R.id.button_entries)
