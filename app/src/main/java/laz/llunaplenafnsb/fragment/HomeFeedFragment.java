@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ import retrofit2.Response;
 public class HomeFeedFragment extends Fragment implements OnFeedItemClickListener {
 
     public static final String TAG = "HomeFeedFragment";
+
+    private ProgressBar mProgressBar;
 
     @Bind(R.id.swipe_refresh_layout)
     CustomSwipeRefreshLayout mSwipeRefreshLayout;
@@ -87,6 +90,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
         View view = inflater.inflate(R.layout.fragment_home_feed, container, false);
         ButterKnife.bind(this, view);
 
+        mProgressBar = (ProgressBar) mToolbar.findViewById(R.id.progress_spinner);
         initialize();
         return view;
     }
@@ -318,10 +322,11 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
     @Override
     public void loadNewEntriesClick() {
 
-        //TODO: Load new entries
         Log.v(TAG, "loadNewEntriesClick!");
         if (mFeed != null && mFeed.getNextPageToken() != null) {
 
+
+            mProgressBar.setVisibility(View.VISIBLE);
             String nextPageToken = mFeed.getNextPageToken();
             final FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(getContext());
             Call<ResponseBody> call = feedLoader.loadMoreEntries(nextPageToken, getContext());
@@ -338,9 +343,11 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
                             Log.v(TAG, "Next page token: " + mFeed.getNextPageToken());
                             mFeed.addPosts(feedLoader.parsePosts(body));
                             loadData();
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     } catch (IOException e) {
 
+                        mProgressBar.setVisibility(View.GONE);
                         Log.v(TAG, "Error while getting response.");
                         manageFailure(e);
                     }

@@ -19,7 +19,7 @@
         fbutton:cornerRadius="5dp"
         fbutton:shadowColor="@color/colorPrimaryDark"
         fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="5dp"
+        fbutton:shadowHeight="2dp"
         tools:visibility="visible"/>
 
 </FrameLayout>
