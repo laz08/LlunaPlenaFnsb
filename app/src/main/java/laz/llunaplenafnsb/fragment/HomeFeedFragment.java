@@ -46,7 +46,8 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
     public static final String TAG = "HomeFeedFragment";
 
-    private ProgressBar mProgressBar;
+    @Bind(R.id.progress_spinner)
+    ProgressBar mProgressBar;
 
     @Bind(R.id.swipe_refresh_layout)
     CustomSwipeRefreshLayout mSwipeRefreshLayout;
@@ -90,7 +91,6 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
         View view = inflater.inflate(R.layout.fragment_home_feed, container, false);
         ButterKnife.bind(this, view);
 
-        mProgressBar = (ProgressBar) mToolbar.findViewById(R.id.progress_spinner);
         initialize();
         return view;
     }

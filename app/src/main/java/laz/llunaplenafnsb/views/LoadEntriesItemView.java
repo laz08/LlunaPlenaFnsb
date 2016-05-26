@@ -7,11 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import info.hoang8f.widget.FButton;
 import laz.llunaplenafnsb.R;
 import laz.llunaplenafnsb.adapter.OnFeedItemClickListener;
 
@@ -24,7 +24,7 @@ public class LoadEntriesItemView extends FrameLayout {
     public static final String TAG = "LoadEntriesItemView";
 
     @Bind(R.id.button_entries)
-    FButton mButton;
+    Button mButton;
 
     /**
      * Constructor.
