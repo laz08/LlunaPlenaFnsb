@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -47,23 +48,16 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
     public static final String TAG = "HomeFeedFragment";
 
-    @Bind(R.id.progress_spinner)
-    ProgressBar mProgressBar;
-
-    @Bind(R.id.swipe_refresh_layout)
-    CustomSwipeRefreshLayout mSwipeRefreshLayout;
+    private ProgressBar mProgressBar;
+    private Toolbar mToolbar;
+    private ImageView mToolbarImage;
+    private CoordinatorLayout mCoordLayout;
 
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-
-    @Bind(R.id.toolbar_image)
-    ImageView mToolbarImage;
-
-    @Bind(R.id.coord_lay)
-    CoordinatorLayout mCoordLayout;
+    @Bind(R.id.swipe_refresh_layout)
+    CustomSwipeRefreshLayout mSwipeRefreshLayout;
 
     private static HomeFeedFragment mHomeFeedFragment;
 
@@ -101,6 +95,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
      */
     private void initialize() {
 
+        findParentViews();
         setUpToolbar();
         configureRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -311,6 +306,19 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
                     }
                 });
         snackbar.show();
+    }
+
+
+    /**
+     * Finds parent views.
+     */
+    private void findParentViews() {
+
+        FragmentActivity parentAct = getActivity();
+        mProgressBar = (ProgressBar) parentAct.findViewById(R.id.progress_spinner);
+        mToolbar = (Toolbar) parentAct.findViewById(R.id.toolbar);
+        mToolbarImage = (ImageView) parentAct.findViewById(R.id.toolbar_image);
+        mCoordLayout = (CoordinatorLayout) parentAct.findViewById(R.id.coord_lay);
     }
 
     @Override

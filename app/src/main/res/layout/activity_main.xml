@@ -7,10 +7,26 @@
                                         android:fitsSystemWindows="true"
                                         android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/fgmt_container"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coord_lay"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/toolbar_layout"
+            layout="@layout/custom_toolbar"/>
+
+        <FrameLayout
+            android:id="@+id/fgmt_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar_layout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
@@ -19,6 +35,7 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/menu_drawer"/>
+
 
 </android.support.v4.widget.DrawerLayout>
 
