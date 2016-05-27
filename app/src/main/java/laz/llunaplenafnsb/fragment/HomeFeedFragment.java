@@ -10,8 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -50,8 +48,6 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
     public static final String TAG = "HomeFeedFragment";
 
     private ProgressBar mProgressBar;
-    private Toolbar mToolbar;
-    private ImageView mToolbarImage;
     private CoordinatorLayout mCoordLayout;
 
     @Bind(R.id.recyclerView)
@@ -97,7 +93,6 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
     private void initialize() {
 
         findParentViews();
-        setUpToolbar();
         configureRecyclerView();
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
@@ -232,26 +227,6 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-
-    /**
-     * Sets up toolbar.
-     */
-    private void setUpToolbar() {
-
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-        activity.setSupportActionBar(mToolbar);
-        ActionBar actionBar = activity.getSupportActionBar();
-        if (actionBar != null) {
-
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.main_title);
-        }
-
-        mToolbarImage.setImageResource(R.drawable.header_toolbar_image);
-    }
-
     /**
      * Configures recycler view.
      */
@@ -318,8 +293,6 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
         FragmentActivity parentAct = getActivity();
         mProgressBar = (ProgressBar) parentAct.findViewById(R.id.progress_spinner);
-        mToolbar = (Toolbar) parentAct.findViewById(R.id.toolbar);
-        mToolbarImage = (ImageView) parentAct.findViewById(R.id.toolbar_image);
         mCoordLayout = (CoordinatorLayout) parentAct.findViewById(R.id.coord_lay);
     }
 

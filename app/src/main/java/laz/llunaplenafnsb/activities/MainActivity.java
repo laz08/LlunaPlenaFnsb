@@ -9,9 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.navigation_view)
     NavigationView mNavigationView;
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @Bind(R.id.toolbar_image)
+    ImageView mToolbarImage;
+
     private Fragment mCurrentFragment;
 
 
@@ -54,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initialize(Bundle savedInstanceState) {
 
+        setUpToolbar();
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -70,6 +80,24 @@ public class MainActivity extends AppCompatActivity {
 
             changeToHomeFeedFragment();
         }
+    }
+
+
+    /**
+     * Sets up toolbar.
+     */
+    private void setUpToolbar() {
+
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.main_title);
+        }
+
+        mToolbarImage.setImageResource(R.drawable.header_toolbar_image);
     }
 
 
