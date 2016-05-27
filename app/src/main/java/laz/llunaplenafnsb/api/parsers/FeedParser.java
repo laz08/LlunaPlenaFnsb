@@ -1,7 +1,5 @@
 package laz.llunaplenafnsb.api.parsers;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

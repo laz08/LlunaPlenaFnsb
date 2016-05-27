@@ -55,6 +55,7 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
     private ArrayList<EntryItem> mEntries;
     private FeedLoaderManager mLoaderManager;
     private SearchView mSearchView;
+    private String mNextPageToken;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,7 +94,10 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
                 mSearchView.clearFocus();
                 try {
 
-                    List<EntryItem> posts = mLoaderManager.parsePosts(response.body().string());
+//                    Log.v(TAG, "Response:" + response.body().string());
+                    String responseAsString = response.body().string();
+                    List<EntryItem> posts = mLoaderManager.parsePosts(responseAsString);
+                    mNextPageToken = mLoaderManager.parseNextPageToken(responseAsString);
                     if (posts != null) {
 
                         mNoEntriesView.setVisibility(View.GONE);
@@ -101,12 +105,23 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
                         Log.v(TAG, "Posts size: " + posts.size());
                         mEntries.clear();
                         mEntries.addAll(posts);
+
+                        if (mNextPageToken != null && !mNextPageToken.equals("")) {
+
+                            mAdapter.setAllowLoadingMoreEntries(true);
+                        } else {
+
+                            mAdapter.setAllowLoadingMoreEntries(false);
+                        }
                         mAdapter.setEntries(mEntries);
                         mAdapter.notifyDataSetChanged();
 
                     } else {
 
                         showError(getResources().getString(R.string.no_results), query);
+                        mEntries.clear();
+                        mAdapter.setEntries(mEntries);
+                        mAdapter.notifyDataSetChanged();
                         mNoEntriesView.setVisibility(View.VISIBLE);
                         Log.v(TAG, "Posts null. Query did not return any result.");
                     }
@@ -228,11 +243,48 @@ public class SearchActivity extends AppCompatActivity implements OnFeedItemClick
     }
 
     @Override
-    public void loadNewEntriesClick(OnFeedLoadedListener listener) {
+    public void loadNewEntriesClick(final OnFeedLoadedListener listener) {
 
         Log.v(TAG, "OnEntryClick!");
         //TODO Search for more entries
+        if (mNextPageToken != null && !mNextPageToken.equals("")) {
 
+            mProgressDialog = ProgressDialog.show(this, getResources().getString(R.string.loading), getResources().getString(R.string.wait), true, false);
+            final FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(this);
+            Call<ResponseBody> call = feedLoader.loadMoreEntries(mNextPageToken, this);
+            call.enqueue(new Callback<ResponseBody>() {
+
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                    listener.hasFinishedLoading();
+                    try {
+                        if (response != null && response.body() != null) {
+
+                            String body = response.body().string();
+                            mNextPageToken = feedLoader.parseNextPageToken(body);
+                            Log.v(TAG, "Next page token: " + mNextPageToken);
+                            mEntries.addAll((feedLoader.parsePosts(body)));
+                            mAdapter.setEntries(mEntries);
+                            mAdapter.notifyDataSetChanged();
+                            mProgressDialog.dismiss();
+                        }
+                    } catch (IOException e) {
+
+                        mProgressDialog.dismiss();
+                        listener.hasFinishedLoading();
+                        Log.v(TAG, "Error while getting response.");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    listener.hasFinishedLoading();
+                }
+            });
+
+        }
     }
 
     /**

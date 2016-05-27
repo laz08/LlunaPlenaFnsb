@@ -35,6 +35,16 @@ public class HomeEntriesAdapter extends RecyclerView.Adapter<BaseFeedItemViewHol
     }
 
     /**
+     * Sets allowing loading more entries button.
+     *
+     * @param value Boolean value.
+     */
+    public void setAllowLoadingMoreEntries(boolean value) {
+
+        mAllowLoadingMoreEntries = value;
+    }
+
+    /**
      * Sets entries.
      *
      * @param entries Entries.
