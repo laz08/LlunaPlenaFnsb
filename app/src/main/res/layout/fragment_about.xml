@@ -2,7 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:layout_marginLeft="@dimen/activity_horizontal_margin"
+              android:layout_marginRight="@dimen/activity_horizontal_margin"
               android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/about_circle_img_dimen"
+        android:layout_height="@dimen/about_circle_img_dimen"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/mediumMarginTop"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,5 +21,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/generalMarginTop"
         android:text="@string/Lorem_Ipsum"/>
 </LinearLayout>

@@ -15,6 +15,5 @@ public class CollapsedBaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         AppBarLayout barLayout = (AppBarLayout) getActivity().findViewById(R.id.toolbar_layout);
         barLayout.setExpanded(false);
-
     }
 }

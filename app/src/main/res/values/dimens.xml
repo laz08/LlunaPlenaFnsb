@@ -15,6 +15,7 @@
     <dimen name="card_radius">5dp</dimen>
 
     <dimen name="generalMarginTop">8dp</dimen>
+    <dimen name="mediumMarginTop">35dp</dimen>
     <dimen name="largeMarginTop">70dp</dimen>
 
     <dimen name="drawer_header_height">178dp</dimen>
@@ -26,6 +27,8 @@
     <dimen name="author_margin">30dp</dimen>
     <dimen name="author_half_margin">15dp</dimen>
     <dimen name="author_thumb_dimen">50dp</dimen>
+
+    <dimen name="about_circle_img_dimen">100dp</dimen>
 
     <dimen name="spinner_progress_toolbar_dimen">34dp</dimen>
 

@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
             if (manager.getBackStackEntryCount() != 0) {
 
                 Log.v(TAG, "Popping");
-//                manager.popBackStack();
                 manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
 
