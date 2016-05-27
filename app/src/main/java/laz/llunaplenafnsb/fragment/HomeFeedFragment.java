@@ -35,6 +35,7 @@ import laz.llunaplenafnsb.adapter.OnFeedLoadedListener;
 import laz.llunaplenafnsb.api.loader.FeedLoaderManager;
 import laz.llunaplenafnsb.items.EntryItem;
 import laz.llunaplenafnsb.items.Feed;
+import laz.llunaplenafnsb.preferences.PreferencesManager;
 import laz.llunaplenafnsb.views.CustomSwipeRefreshLayout;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -178,6 +179,7 @@ public class HomeFeedFragment extends Fragment implements OnFeedItemClickListene
 
         final FeedLoaderManager feedLoader = FeedLoaderManager.getInstance(getContext());
         mFeed = feedLoader.parseFeed(response.body().string());
+        PreferencesManager.setLastUpdated(getContext(), mFeed.getUpdated());
 
         Call<ResponseBody> itemsCall = feedLoader.loadEntries(getContext());
 

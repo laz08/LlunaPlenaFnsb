@@ -28,8 +28,8 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
         int freq = PreferencesManager.getFrequencyCheckUpdates(ctx);
         Log.v(TAG, "Will trigger every " + freq + " hours");
-//        long intervalInMillis = AlarmManager.INTERVAL_HOUR * freq;
-        long intervalInMillis = 60 * 1000 * freq; //Uncheck this if you want to debug and check it every X minutes!
+        long intervalInMillis = AlarmManager.INTERVAL_HOUR * freq;
+//        long intervalInMillis = 60 * 1000 * freq; //TODO Uncheck this if you want to debug and check it every X minutes!
 
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         PendingIntent alarmIntent = getStartPendingIntent(ctx);

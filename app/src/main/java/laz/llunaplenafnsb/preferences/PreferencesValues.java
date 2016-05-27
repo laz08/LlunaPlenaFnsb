@@ -9,7 +9,5 @@ public class PreferencesValues {
     public static final String FREQUENCY_CHECK = "frequencyCheck";
     public static final String CHECK_FOR_UPDATES = "checkForUpdates";
 
-
     public static final int DEFAULT_HOURS = 3;
-
 }

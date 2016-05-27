@@ -22,7 +22,6 @@ public class FeedParser {
         Feed item = new Feed();
         try {
 
-            Log.v(TAG, "Name: " + json.getString(ApiConstant.NAME));
             item.setName(json.getString(ApiConstant.NAME));
             item.setDescription(json.getString(ApiConstant.DESCRIPTION));
             item.setUpdated(json.getString(ApiConstant.UPDATED));

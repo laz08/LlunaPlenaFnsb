@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                 openForum();
                 mDrawerLayout.closeDrawers();
-                return true;
+                return false;
 
             case R.id.drawer_config:
 
