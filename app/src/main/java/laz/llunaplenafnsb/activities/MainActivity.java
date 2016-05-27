@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.drawer_dev:
-                //TODO: Start about developer screen
                 changeToDeveloperFragment();
                 mDrawerLayout.closeDrawers();
                 return true;
@@ -180,7 +179,8 @@ public class MainActivity extends AppCompatActivity {
             if (manager.getBackStackEntryCount() != 0) {
 
                 Log.v(TAG, "Popping");
-                manager.popBackStack();
+//                manager.popBackStack();
+                manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else {
 
                 FragmentTransaction fmtTransaction = manager.beginTransaction();
@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         FragmentManager manager = getSupportFragmentManager();
-        if(mCurrentFragment.isAdded()){
+        if (mCurrentFragment.isAdded()) {
 
             manager.putFragment(outState, CURRENT_FRAGMENT, mCurrentFragment);
         }

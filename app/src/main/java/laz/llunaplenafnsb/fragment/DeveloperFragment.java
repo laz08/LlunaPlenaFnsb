@@ -2,7 +2,6 @@ package laz.llunaplenafnsb.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import laz.llunaplenafnsb.R;
 /**
  * About fragment.
  */
-public class DeveloperFragment extends Fragment {
+public class DeveloperFragment extends CollapsedBaseFragment {
 
     private static DeveloperFragment sDeveloperFragment;
 
